@@ -6,19 +6,22 @@ type AggFunc = {
   [key: string]: string
 }
 
-interface StoreDeep {
+interface StoreNested {
   type: string
-  value?: any
+  value?: number
+  minmax?: any[]
+  title?: string
 }
 
 type Store = {
-  [key: string]: StoreDeep
+  [key: string]: StoreNested
+}
+
+interface HashNested {
+  type: string
+  name: string
 }
 
 type TotalHash = {
-  [key: string]: any
-}
-
-type Totals = {
-  [key: string]: string | number
+  [key: string]: HashNested
 }

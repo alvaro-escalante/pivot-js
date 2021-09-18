@@ -8,32 +8,68 @@ A lightway module that takes an array of objects and outputs a pivoted array of 
 
 ## Options
 
-### Pivot(data, index, values, rename)
+Usage
+
+```js
+Pivot(data, row, values, rename)
+```
 
 Returns: `Array[Object]`
 
-#### data
+---
+
+### data
 
 Type: `Array[Object]`<br />
 Required: `true`
+Description: 'Prepare the data to pivot it'
 
-#### index
+```js
+const data = [{
+  example1: string, exmaple2: number...
+},{
+  ....
+}]
+```
+
+---
+
+### row
 
 Type: `String`<br />
 Required: `true`
 
-#### values
+```js
+const index = 'example1'
+```
+
+---
+
+### values
 
 Type: `Object`<br />
 Required: `true`<br />
 Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
-Example: `values = { columnName: 'count' }`
 
-#### rename
+```js
+const values = {
+  example1: 'count',
+  example2: 'sum
+}
+```
 
-Type: `Array`<br />
+---
+
+### rename
+
+Type: `Array[Strings]`<br />
 Required: `false`
-<br />
+
+```js
+const rename = ['Domains', 'Traffic Estimates']
+```
+
+---
 
 ## Install
 
@@ -49,41 +85,61 @@ Using yarn:
 $ yarn add pivot-js
 ```
 
-## Usage
-
-Preapare your data
+## Example
 
 ```js
+
+import Pivot from 'pivot-js'
+
 const data = [
   {
-    type: 'B',
     domain: 'duckduckgo.com',
-    TE: 1000,
-    TF: 30
+    traffic: 1000,
+    trustFlow: 30
   },
   {
-    type: 'B',
     domain: 'duckduckgo.com',
-    TE: 2000,
-    TF: 30
+    traffic: 2000,
+    trustFlow: 30
   },
   {
-    type: 'B',
-    domain: 'duckduckgo.com',
-    TE: 3000,
-    TF: 30
-  },
-  {
-    type: 'A',
     domain: 'google.com',
-    TE: 100,
-    TF: 42
+    traffic: 100,
+    trustFlow: 42
   },
   {
-    type: 'A',
     domain: 'google.com',
-    TE: 200,
-    TF: 42
+    traffic: 200,
+    trustFlow: 42
   }
 ]
+
+const pivotTable = Pivot(
+  data,
+  'domain',
+  {
+    domain: 'counter',
+    traffic: 'sum',
+    trustFlow: 'mean'
+  },
+  ['Frequency of Domain', 'Traffic Sum', 'Average TF']
+)
+
+console.log(pivotTable) ->
+[{
+  Domain: 'duckduckgo.com',
+  'Frequency of Domain': 2,
+  'Traffic Sum': 3000,
+  'Average TF': 30
+},{
+  Domain: 'google.com',
+  'Frequency of Domain': 2,
+  'Traffic Sum': 300,
+  'Average TF': 42
+},{
+  Domain: 'Grand Total',
+  'Frequency of Domain': 4,
+  'Traffic Sum': 3300,
+  'Average TF': 36
+}]
 ```

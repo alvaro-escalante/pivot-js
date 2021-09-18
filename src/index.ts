@@ -4,16 +4,19 @@ function assertIsString(value: string | number): asserts value is string {
     throw new Error(`Expected a string, but got ${typeof value}`)
   }
 }
+
 // Pivot table function
-export function Pivot(
+export default (
   data: Entries[],
   index: string,
   aggregate: AggFunc,
   renames: string[] = []
-) {
+) => {
+  // Set starting variables
   let counter: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
+  // Order array by column index passed
   const order: Entries[] = data.sort((a, b) => {
     const avalue = a[index]
     const bvalue = b[index]
@@ -23,6 +26,7 @@ export function Pivot(
     return avalue.localeCompare(bvalue)
   })
 
+  // Find columns on data array, expose if not present
   const missing = Object.keys(aggregate).find(
     (entry) => !Object.keys(data[0]).includes(entry)
   )
@@ -31,76 +35,64 @@ export function Pivot(
     throw Error(`${missing} does not exists`)
   }
 
-  if (!Object.values(aggregate).includes('counter')) {
-    aggregate[index] = 'counter'
-  }
+  // Add counter if none has been passed explicitly
+  if (!Object.values(aggregate).includes('counter')) aggregate[index] = 'counter'
 
   // Calculate pivots
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
     for (const [name, type] of Object.entries(aggregate)) {
-      // Add count per each row
-
-      if (type === 'display') {
-        store[name] = { type, value: row[name] }
-        continue
-      }
-
-      if (type === 'counter') {
-        store[name] = { type }
-        counter = !acc.has(row[index]) ? 1 : counter + 1
-        continue
-      }
-
-      if (['min', 'max'].includes(type)) {
-        if (!acc.has(row[index])) {
-          store[name] = { type, value: [] }
-          store[name].value.push(row[name])
-        } else {
-          store[name].value.push(...store[name].value, row[name])
-        }
-        continue
-      }
-
-      // Aggregation is sum
-      store[name] = {
-        type,
-        value: !acc.has(row[index]) ? row[name] : store[name].value + row[name]
+      switch (type) {
+        case 'display':
+          store[name] = { type, title: row[name] as string }
+          break
+        case 'counter':
+          store[name] = { type, value: counter }
+          counter = !acc.has(row[index]) ? 1 : counter + 1
+          break
+        case 'min':
+        case 'max':
+          if (!acc.has(row[index])) store[name] = { type, minmax: [] }
+          store[name].minmax.push(row[name])
+          break
+        default:
+          store[name] = {
+            type,
+            value: !acc.has(row[index])
+              ? (row[name] as number)
+              : (store[name].value as number) + (row[name] as number)
+          }
+          break
       }
     }
 
-    // Add the data as 'required table'
     const aggregateObj: Entries = {}
 
     for (const [index, [name, type]] of Object.entries(aggregate).entries()) {
       const id = renames[index + 1] ?? name
       totalHash[id] = { type, name }
 
-      // If counter just add it
-      if (type === 'counter') {
-        aggregateObj[id] = counter
-        continue
+      switch (type) {
+        case 'display':
+          aggregateObj[id] = store[name].title
+          break
+        case 'counter':
+          aggregateObj[id] = counter
+          break
+        case 'mean':
+          aggregateObj[id] = store[name].value / counter
+          break
+        case 'min':
+          aggregateObj[id] = Math[type](...store[name].minmax)
+          break
+        default:
+          aggregateObj[id] = store[name].value
+          break
       }
-
-      // If is mean divided by exisiting counter on stored column
-      if (type === 'mean') {
-        aggregateObj[id] = store[name].value / counter
-        continue
-      }
-
-      // If min/max run Math on array on stored column
-      if (['min', 'max'].includes(type)) {
-        const val: number[] = store[name].value
-        aggregateObj[id] = type === 'min' ? Math.min(...val) : Math.max(...val)
-        continue
-      }
-
-      // If sum add the stored value for that column
-      aggregateObj[id] = store[name].value
     }
 
     // Add default name to first entry or use renames array
-    let indexID = renames.length ? renames[0] : 'index'
+    let indexID = renames.length ? renames[0] : 'row'
 
     // Set table and spread aggregate calcs
     acc.set(row[index], {
@@ -120,7 +112,7 @@ export function Pivot(
   // Remove the first one
   const first: string = headers.splice(0, 1)[0]
 
-  const totals: Totals = {}
+  const totals: Entries = {}
   totals[first] = 'Grand Total'
 
   // Calculate totals based on original data and tabled data
@@ -159,3 +151,39 @@ export function Pivot(
 
   return table
 }
+
+const data = [
+  {
+    domain: 'duckduckgo.com',
+    traffic: 1000,
+    trustFlow: 30
+  },
+  {
+    domain: 'duckduckgo.com',
+    traffic: 2000,
+    trustFlow: 30
+  },
+  {
+    domain: 'google.com',
+    traffic: 100,
+    trustFlow: 42
+  },
+  {
+    domain: 'google.com',
+    traffic: 200,
+    trustFlow: 42
+  }
+]
+
+const pivotTable = Pivot(
+  data,
+  'domain',
+  {
+    domain: 'counter',
+    traffic: 'sum',
+    trustFlow: 'mean'
+  },
+  ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
+)
+
+console.log(pivotTable)
