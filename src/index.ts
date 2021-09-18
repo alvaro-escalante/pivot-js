@@ -53,7 +53,7 @@ export default (
         case 'min':
         case 'max':
           if (!acc.has(row[index])) store[name] = { type, minmax: [] }
-          store[name].minmax.push(row[name])
+          store[name].minmax.push(row[name] as number)
           break
         default:
           store[name] = {
@@ -152,38 +152,38 @@ export default (
   return table
 }
 
-const data = [
-  {
-    domain: 'duckduckgo.com',
-    traffic: 1000,
-    trustFlow: 30
-  },
-  {
-    domain: 'duckduckgo.com',
-    traffic: 2000,
-    trustFlow: 30
-  },
-  {
-    domain: 'google.com',
-    traffic: 100,
-    trustFlow: 42
-  },
-  {
-    domain: 'google.com',
-    traffic: 200,
-    trustFlow: 42
-  }
-]
+// const data = [
+//   {
+//     domain: 'duckduckgo.com',
+//     traffic: 1000,
+//     trustFlow: 30
+//   },
+//   {
+//     domain: 'duckduckgo.com',
+//     traffic: 2000,
+//     trustFlow: 30
+//   },
+//   {
+//     domain: 'google.com',
+//     traffic: 100,
+//     trustFlow: 42
+//   },
+//   {
+//     domain: 'google.com',
+//     traffic: 200,
+//     trustFlow: 42
+//   }
+// ]
 
-const pivotTable = Pivot(
-  data,
-  'domain',
-  {
-    domain: 'counter',
-    traffic: 'sum',
-    trustFlow: 'mean'
-  },
-  ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
-)
+// const pivotTable = Pivot(
+//   data,
+//   'domain',
+//   {
+//     domain: 'counter',
+//     traffic: 'sum',
+//     trustFlow: 'mean'
+//   },
+//   ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
+// )
 
-console.log(pivotTable)
+// console.log(pivotTable)
