@@ -15,22 +15,24 @@ Returns: `Array[Object]`
 #### data
 
 Type: `Array[Object]`<br />
-Required: true
+Required: `true`
 
 #### index
 
 Type: `String`<br />
-Required: true
+Required: `true`
 
 #### values
 
 Type: `Object`<br />
-Required: true
+Required: `true`<br />
+Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
+Example: `values = { columnName: 'count' }`
 
 #### rename
 
 Type: `Array`<br />
-Required: false
+Required: `false`
 <br />
 
 ## Install
