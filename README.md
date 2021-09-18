@@ -111,7 +111,8 @@ Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
 ```js
 {
   example1: 'count',
-  example2: 'sum
+  example2: 'sum',
+  example3: 'mean'
 }
 ```
 
