@@ -2,7 +2,7 @@
 
 A lightway module that takes an array of objects and outputs a pivoted array of objects back.
 
-`pivot-js` can pivot rows and calculate diferent metrics for each column. the results can optionally be renamed.
+`pivot-js` can pivot rows and calculate different metrics for each column. the results can also be optionally renamed.
 
 ## Example
 
