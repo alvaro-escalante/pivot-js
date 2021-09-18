@@ -122,7 +122,7 @@ const pivotTable = Pivot(
     traffic: 'sum',
     trustFlow: 'mean'
   },
-  ['Frequency of Domain', 'Traffic Sum', 'Average TF']
+  ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
 )
 
 console.log(pivotTable) ->
