@@ -82,7 +82,7 @@ Required: `true`
 Description: 'Prepare the data to pivot it'
 
 ```js
-[{
+data = [{
   example1: string, exmaple2: number...
 },{
   ....
@@ -97,7 +97,7 @@ Type: `String`<br />
 Required: `true`
 
 ```js
-'example1'
+row = 'example1'
 ```
 
 ---
@@ -109,7 +109,7 @@ Required: `true`<br />
 Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
 
 ```js
-{
+values = {
   example1: 'count',
   example2: 'sum',
   example3: 'mean'
@@ -124,7 +124,7 @@ Type: `Array[Strings]`<br />
 Required: `false`
 
 ```js
-;['Domains', 'Traffic Estimates']
+rename = ['Domains', 'Traffic Estimates']
 ```
 
 ---
