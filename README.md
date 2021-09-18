@@ -35,12 +35,11 @@ Required: false
 
 ## Install
 
-````
 Using npm:
 
 ```console
 $ npm install pivot-js
-````
+```
 
 Using yarn:
 
