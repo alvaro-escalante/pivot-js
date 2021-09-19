@@ -4,6 +4,20 @@ A lightweight module that takes an array of objects and produces an array of obj
 
 `pivot-js` can calculate different/same aggregate values for each column. the results can also be optionally renamed.
 
+## Install
+
+Using npm:
+
+```console
+$ npm install pivot-js
+```
+
+Using yarn:
+
+```console
+$ yarn add pivot-js
+```
+
 ## Example
 
 ```js
@@ -139,20 +153,4 @@ Description: Optionally rename the output columns, the order is important.
 
 ```js
 rename = ['Domains', 'Traffic Estimates' ...]
-```
-
----
-
-## Install
-
-Using npm:
-
-```console
-$ npm install pivot-js
-```
-
-Using yarn:
-
-```console
-$ yarn add pivot-js
 ```
