@@ -1,8 +1,8 @@
 # pivot-js
 
-A lightway module that takes an array of objects and outputs a pivoted array of objects back.
+A lightweight module that takes an array of objects and outputs a pivoted array of objects back. Emulating excel pivot tables and inspired by Python Pandas pivot.
 
-`pivot-js` can pivot rows and calculate different metrics for each column. the results can also be optionally renamed.
+`pivot-js` can pivot rows and calculate different/same metrics for each column. the results can also be optionally renamed.
 
 ## Example
 
