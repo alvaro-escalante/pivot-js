@@ -1,21 +1,20 @@
-// Function to detect if the index is string to order array
-function assertIsString(value: string | number): asserts value is string {
-  if (typeof value !== 'string') {
-    throw new Error(`Expected a string, but got ${typeof value}`)
-  }
-}
-
 // Pivot table function
-export default (
+export default function (
   data: Entries[],
   index: string,
   aggregate: AggFunc,
-  renames: string[] = []
-) => {
+  rename: string[] = []
+) {
   // Set starting variables
   let counter: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
+  // Validate with asserts if
+  function assertIsString(value: string | number): asserts value is string {
+    if (typeof value !== 'string') {
+      throw new Error(`Expected a string, but got ${typeof value}`)
+    }
+  }
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) => {
     const avalue = a[index]
@@ -69,7 +68,7 @@ export default (
     const aggregateObj: Entries = {}
 
     for (const [index, [name, type]] of Object.entries(aggregate).entries()) {
-      const id = renames[index + 1] ?? name
+      const id = rename[index + 1] ?? name
       totalHash[id] = { type, name }
 
       switch (type) {
@@ -92,24 +91,24 @@ export default (
     }
 
     // Add default name to first entry or use renames array
-    let indexID = renames.length ? renames[0] : 'row'
+    let rowID = rename.length ? rename[0] : 'row'
 
     // Set table and spread aggregate calcs
     acc.set(row[index], {
-      [indexID]: row[index],
+      [rowID]: row[index],
       ...aggregateObj
     })
 
     return acc
   }, new Map())
 
-  const table = [...pivots.values()]
+  const pivotTable = [...pivots.values()]
 
   // Calculate totals
 
   // Get names of posibly renamed columns
-  const headers: string[] = Object.keys(table[0])
-  // Remove the first one
+  const headers: string[] = Object.keys(pivotTable[0])
+  // Remove the first entry to use as row index
   const first: string = headers.splice(0, 1)[0]
 
   const totals: Entries = {}
@@ -127,7 +126,7 @@ export default (
       continue
     }
 
-    // For min/max use tabled results
+    // For min/max use pivoted results
     if (['min', 'max'].includes(item.type)) {
       totals[header] = data.reduce((acc, curr) => {
         const evaluation = item.type === 'min' ? acc < curr[value] : acc > curr[value]
@@ -137,53 +136,18 @@ export default (
       continue
     }
 
+    // For displays reset row there is nothing to reduce
     if (item.type === 'display') {
       totals[header] = '-'
       continue
     }
 
-    // For sum use tabled results
-    totals[header] = table.reduce((acc, curr) => acc + curr[header], 0)
+    // For sum use pivoted results
+    totals[header] = pivotTable.reduce((acc, curr) => acc + curr[header], 0)
   }
 
   // Add totals to pivot table
-  table.push(totals)
+  pivotTable.push(totals)
 
-  return table
+  return pivotTable
 }
-
-// const data = [
-//   {
-//     domain: 'duckduckgo.com',
-//     traffic: 1000,
-//     trustFlow: 30
-//   },
-//   {
-//     domain: 'duckduckgo.com',
-//     traffic: 2000,
-//     trustFlow: 30
-//   },
-//   {
-//     domain: 'google.com',
-//     traffic: 100,
-//     trustFlow: 42
-//   },
-//   {
-//     domain: 'google.com',
-//     traffic: 200,
-//     trustFlow: 42
-//   }
-// ]
-
-// const pivotTable = Pivot(
-//   data,
-//   'domain',
-//   {
-//     domain: 'counter',
-//     traffic: 'sum',
-//     trustFlow: 'mean'
-//   },
-//   ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
-// )
-
-// console.log(pivotTable)
