@@ -79,7 +79,7 @@ console.log(pivotTable)
 Usage
 
 ```js
-Pivot(data, row, values, rename)
+Pivot(data, index, values, rename)
 ```
 
 Returns: `Array[Object]`
@@ -89,8 +89,8 @@ Returns: `Array[Object]`
 ### data
 
 Type: `Array[Object]`<br />
-Required: `true`
-Description: 'Prepare the data to pivot it'
+Required: `true`<br />
+Description: Array of objects with the data to pivot against.
 
 ```js
 data = [{
@@ -102,13 +102,14 @@ data = [{
 
 ---
 
-### row
+### index
 
 Type: `String`<br />
-Required: `true`
+Required: `true`<br />
+Description: The index row to use as pivot.
 
 ```js
-row = 'example1'
+index = 'example1'
 ```
 
 ---
@@ -117,6 +118,7 @@ row = 'example1'
 
 Type: `Object`<br />
 Required: `true`<br />
+Description: The aggregate values.<br />
 Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
 
 ```js
@@ -132,10 +134,11 @@ values = {
 ### rename
 
 Type: `Array[Strings]`<br />
-Required: `false`
+Required: `false`<br />
+Description: Optionally rename the output columns, the order is important.
 
 ```js
-rename = ['Domains', 'Traffic Estimates']
+rename = ['Domains', 'Traffic Estimates' ...]
 ```
 
 ---
