@@ -132,8 +132,14 @@ index = 'example1'
 
 Type: `Object`<br />
 Required: `true`<br />
-Description: The aggregate values.<br />
 Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
+Description: The aggregate values:
+
+- display: Do not compute the value just display it.<br />
+- count: Count how many instances of the row.<br />
+- sum: Sum entries.<br />
+- mean: Calculate the average of entries.<br />
+- min/max: Calculate min/max values. <br />
 
 ```js
 values = {
