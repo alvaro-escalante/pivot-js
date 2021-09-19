@@ -1,5 +1,5 @@
 import Pivot from '../src/index'
-import data from '../src/testData.json'
+import data from './testData.json'
 
 test('Only min with default index counter', () => {
   const options = { TF: 'mean' }
@@ -15,9 +15,9 @@ test('Only sum with default index counter', () => {
   const options = { TE: 'sum' }
 
   expect(Pivot(data, 'domain', options)).toEqual([
-    { index: 'duckduckgo.com', domain: 3, TE: 6000 },
-    { index: 'google.com', domain: 2, TE: 300 },
-    { index: 'Grand Total', domain: 5, TE: 6300 }
+    { row: 'duckduckgo.com', domain: 3, TE: 6000 },
+    { row: 'google.com', domain: 2, TE: 300 },
+    { row: 'Grand Total', domain: 5, TE: 6300 }
   ])
 })
 
