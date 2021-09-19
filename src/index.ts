@@ -67,8 +67,8 @@ export default function (
 
     const aggregateObj: Entries = {}
 
-    for (const [index, [name, type]] of Object.entries(aggregate).entries()) {
-      const id = rename[index + 1] ?? name
+    for (const [i, [name, type]] of Object.entries(aggregate).entries()) {
+      const id = rename[i + 1] ?? name
       totalHash[id] = { type, name }
 
       switch (type) {
@@ -91,7 +91,7 @@ export default function (
     }
 
     // Add default name to first entry or use renames array
-    let rowID = rename.length ? rename[0] : 'row'
+    const rowID = rename.length ? rename[0] : 'row'
 
     // Set table and spread aggregate calcs
     acc.set(row[index], {
