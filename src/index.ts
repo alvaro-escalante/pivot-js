@@ -9,7 +9,7 @@ export default function (
   let counter: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
-  // Validate with asserts if
+  // Validate with asserts
   function assertIsString(value: string | number): asserts value is string {
     if (typeof value !== 'string') {
       throw new Error(`Expected a string, but got ${typeof value}`)
@@ -35,7 +35,18 @@ export default function (
   }
 
   // Add counter if none has been passed explicitly
-  if (!Object.values(aggregate).includes('counter')) aggregate[index] = 'counter'
+  if (!Object.values(aggregate).includes('counter')) {
+    aggregate[index] = 'counter'
+  }
+
+  // Check rename function has enough items
+  if (rename.length) {
+    const columns = Object.keys(data[0]).length + 1
+    const missing = columns - rename.length
+    if (missing) {
+      throw new Error(`The rename array is too short, missing ${missing}`)
+    }
+  }
 
   // Calculate pivots
   const pivots = order.reduce((acc, row) => {
