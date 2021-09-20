@@ -24,14 +24,13 @@ test('Only sum with default index counter', () => {
 test('Full with no rename', () => {
   const options = {
     domain: 'counter',
-    type: 'display',
     TE: 'sum',
     TF: 'min'
   }
-  expect(Pivot(data, 'type', options)).toEqual([
-    { row: 'A', domain: 2, type: 'A', TE: 300, TF: 42 },
-    { row: 'B', domain: 3, type: 'B', TE: 6000, TF: 30 },
-    { row: 'Grand Total', domain: 5, type: '-', TE: 6300, TF: 30 }
+  expect(Pivot(data, 'domain', options)).toEqual([
+    { row: 'duckduckgo.com', domain: 2, TE: 300, TF: 42 },
+    { row: 'google.com', domain: 3, TE: 6000, TF: 30 },
+    { row: 'Grand Total', domain: 5, TE: 6300, TF: 30 }
   ])
 })
 

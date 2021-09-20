@@ -88,75 +88,20 @@ console.log(pivotTable)
 
 ---
 
-## Options
+## Usage
 
-Usage
+### Pivot(data, index, values [,rename])
 
-```js
-Pivot(data, index, values, rename)
-```
-
-Returns: `Array[Object]`
-
----
-
-### data
-
-Type: `Array[Object]`<br />
-Required: `true`<br />
-Description: Array of objects with the data to pivot against.
-
-```js
-data = [{
-  example1: string, exmaple2: number...
-},{
-  ....
-}]
-```
+* `data` *`<Array<Object>>`* Prepared Array of objects to pivot against.
+* `index` *`<string>`* The index row to use as pivot.
+* `values` *`<Object>`* Aggregate functions
+  * `[column: <string>]:` `'display'`: Do not compute the value just display it
+  * `[column: <string>]:` `'count'`: Count how many instances of the row.
+  * `[column: <string>]:` `'sum'` : Sum entries.
+  * `[column: <string>]:` `'mean'` : Calculate the average of all entries.
+  * `[column: <string>]:` `'min'`: Calculate the min value for all entries.
+  * `[column: <string>]:` `'max'`: Calculate the max value for all entries.
+* `rename` *`<Array><string>>`* Optionally rename the output columns, the order is important.
+* `returns`: *`<Array<Object>>`*
 
 ---
-
-### index
-
-Type: `String`<br />
-Required: `true`<br />
-Description: The index row to use as pivot.
-
-```js
-index = 'example1'
-```
-
----
-
-### values
-
-Type: `Object`<br />
-Required: `true`<br />
-Options: `display`, `count`, `sum`, `mean`, `min`, ` max`<br />
-Description: The aggregate values:
-
-- display: Do not compute the value just display it.<br />
-- count: Count how many instances of the row.<br />
-- sum: Sum entries.<br />
-- mean: Calculate the average of entries.<br />
-- min/max: Calculate min/max values. <br />
-
-```js
-values = {
-  example1: 'count',
-  example2: 'sum',
-  example3: 'mean'
-}
-```
-
----
-
-### rename
-
-Type: `Array[Strings]`<br />
-Required: `false`<br />
-Description: Optionally rename the output columns, the order is important.
-
-```js
-rename = ['Domains', 'Traffic Estimates' ...]
-```
