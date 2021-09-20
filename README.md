@@ -95,7 +95,7 @@ console.log(pivotTable)
 * `data` *`<Array<Object>>`* Prepared Array of objects to pivot against.
 * `index` *`<string>`* The index row to use as pivot.
 * `values` *`<Object>`* Aggregate functions
-  * `[column: <string>]:` `'display'`: Do not compute the value just display it
+  * `[column: <string>]:` `'display'`: Do not compute the value just display.
   * `[column: <string>]:` `'count'`: Count how many instances of the row.
   * `[column: <string>]:` `'sum'` : Sum entries.
   * `[column: <string>]:` `'mean'` : Calculate the average of all entries.
