@@ -1,5 +1,5 @@
 // Pivot table function
-export default function (
+export function Pivot(
   data: Entries[],
   index: string,
   aggregate: AggFunc,
@@ -7,41 +7,31 @@ export default function (
 ) {
   // Set starting variables
   let counter: number = 0
+  let len: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
-  // Validate with asserts
-  function assertIsString(value: string | number): asserts value is string {
-    if (typeof value !== 'string') {
-      throw new Error(`Expected a string, but got ${typeof value}`)
-    }
-  }
+
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) => {
-    const avalue = a[index]
-    const bvalue = b[index]
-    assertIsString(avalue)
-    assertIsString(bvalue)
-
-    return avalue.localeCompare(bvalue)
+    if (typeof a[index] === 'number') {
+      return (a[index] as number) - (b[index] as number)
+    } else {
+      return (a[index] as string).localeCompare(b[index] as string)
+    }
   })
 
   // Find columns on data array, expose if not present
-  const missing = Object.keys(aggregate).find(
+  const notInColumns = Object.keys(aggregate).find(
     (entry) => !Object.keys(data[0]).includes(entry)
   )
 
-  if (missing) {
-    throw Error(`${missing} does not exists`)
-  }
-
-  // Add counter if none has been passed explicitly
-  if (!Object.values(aggregate).includes('counter')) {
-    aggregate[index] = 'counter'
+  if (notInColumns) {
+    throw Error(`${notInColumns} does not exists`)
   }
 
   // Check rename function has enough items
   if (rename.length) {
-    const columns = Object.keys(data[0]).length + 1
+    const columns = Object.keys(aggregate).length + 1
     const missing = columns - rename.length
     if (missing) {
       throw new Error(`The rename array is too short, missing ${missing}`)
@@ -52,11 +42,10 @@ export default function (
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
     for (const [name, type] of Object.entries(aggregate)) {
+      len = !acc.has(row[index]) ? 1 : counter + 1
+
       switch (type) {
-        case 'display':
-          store[name] = { type, title: row[name] as string }
-          break
-        case 'counter':
+        case 'count':
           store[name] = { type, value: counter }
           counter = !acc.has(row[index]) ? 1 : counter + 1
           break
@@ -79,34 +68,40 @@ export default function (
     const aggregateObj: Entries = {}
 
     for (const [i, [name, type]] of Object.entries(aggregate).entries()) {
-      const id = rename[i + 1] ?? name
-      totalHash[id] = { type, name }
+      const id = rename[i + 1] ?? false
+      let title = ''
 
       switch (type) {
-        case 'display':
-          aggregateObj[id] = store[name].title
-          break
-        case 'counter':
-          aggregateObj[id] = counter
+        case 'count':
+          title = id ? id : `Count of ${name}`
+          aggregateObj[title] = counter
           break
         case 'mean':
-          aggregateObj[id] = store[name].value / counter
+          title = id ? id : `Mean of ${name}`
+          aggregateObj[title] = store[name].value / len
           break
         case 'min':
-          aggregateObj[id] = Math[type](...store[name].minmax)
+        case 'max':
+          title = id ? id : `${type.charAt(0).toUpperCase() + type.slice(1)} of ${name}`
+          aggregateObj[title] = Math[type](...store[name].minmax)
           break
-        default:
-          aggregateObj[id] = store[name].value
+        case 'sum':
+          title = id ? id : `Sum of ${name}`
+          aggregateObj[title] = store[name].value + ((aggregateObj[title] as number) ?? 0)
           break
       }
+
+      totalHash[title] = { type, name }
     }
 
     // Add default name to first entry or use renames array
-    const rowID = rename.length ? rename[0] : 'row'
+    const indexID = rename.length
+      ? rename[0]
+      : `${index.charAt(0).toUpperCase()}${index.slice(1)}`
 
     // Set table and spread aggregate calcs
     acc.set(row[index], {
-      [rowID]: row[index],
+      [indexID]: row[index],
       ...aggregateObj
     })
 
@@ -147,12 +142,6 @@ export default function (
       continue
     }
 
-    // For displays reset row there is nothing to reduce
-    if (item.type === 'display') {
-      totals[header] = '-'
-      continue
-    }
-
     // For sum use pivoted results
     totals[header] = pivotTable.reduce((acc, curr) => acc + curr[header], 0)
   }
@@ -162,3 +151,30 @@ export default function (
 
   return pivotTable
 }
+
+// console.log(
+//   Pivot(
+//     [
+//       {
+//         position: 1,
+//         TF: 100
+//       },
+//       {
+//         position: 2,
+//         TF: 140
+//       },
+//       {
+//         position: 3,
+//         TF: 20
+//       },
+//       {
+//         position: 1,
+//         TF: 10
+//       }
+//     ],
+//     'position',
+//     {
+//       TF: 'sum'
+//     }
+//   )
+// )

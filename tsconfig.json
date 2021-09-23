@@ -17,6 +17,6 @@
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "importsNotUsedAsValues": "preserve"
   },
-  "include": ["src"],
+  "include": ["src", "__tests__/data.ts"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }
