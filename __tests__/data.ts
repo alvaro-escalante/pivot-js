@@ -1,22 +1,25 @@
-export const avis = [
+export const auto = [
   {
     keyword: 'car hire',
     url: 'https://www.avis.com',
+    page: 1,
     rank: 1
   },
   {
     keyword: 'car rental',
     url: 'https://www.budget.com',
-    rank: 1
+    rank: 1,
+    page: 2
   },
   {
     keyword: 'car hire',
     url: 'https://www.hertz.com',
+    page: 2,
     rank: 3
   }
 ]
 
-export const jose = [
+export const renames = [
   {
     position: 1,
     TF: 100
@@ -35,7 +38,7 @@ export const jose = [
   }
 ]
 
-export const test = [
+export const full = [
   {
     type: 'B',
     domain: 'duckduckgo.com',

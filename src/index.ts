@@ -1,3 +1,4 @@
+import * as validation from './validations'
 // Pivot table function
 export function Pivot(
   data: Entries[],
@@ -10,6 +11,7 @@ export function Pivot(
   let len: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
+  const aggValues = ['count', 'sum', 'mean', 'min', 'max']
 
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) => {
@@ -20,35 +22,29 @@ export function Pivot(
     }
   })
 
-  // Find columns on data array, expose if not present
-  const notInColumns = Object.keys(aggregate).find(
-    (entry) => !Object.keys(data[0]).includes(entry)
-  )
+  // Find wrong function for type of column
+  validation.checkAggType(aggregate, data[0])
 
-  if (notInColumns) {
-    throw Error(`${notInColumns} does not exists`)
-  }
+  // Find wrong aggregate functions on aggregate obj values
+  validation.checkAggValues(aggregate, aggValues)
+
+  // Find wrong columns on aggregate obj keys
+  validation.checkAggKeys(aggregate, Object.keys(data[0]))
 
   // Check rename function has enough items
-  if (rename.length) {
-    const columns = Object.keys(aggregate).length + 1
-    const missing = columns - rename.length
-    if (missing) {
-      throw new Error(`The rename array is too short, missing ${missing}`)
-    }
-  }
+  validation.checkRenames(rename, aggregate)
 
   // Calculate pivots
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
     for (const [name, type] of Object.entries(aggregate)) {
-      len = !acc.has(row[index]) ? 1 : counter + 1
-
+      len = !acc.has(row[index]) ? 1 : len + 1
       switch (type) {
         case 'count':
           store[name] = { type, value: counter }
           counter = !acc.has(row[index]) ? 1 : counter + 1
           break
+
         case 'min':
         case 'max':
           if (!acc.has(row[index])) store[name] = { type, minmax: [] }
@@ -85,7 +81,7 @@ export function Pivot(
           title = id ? id : `${type.charAt(0).toUpperCase() + type.slice(1)} of ${name}`
           aggregateObj[title] = Math[type](...store[name].minmax)
           break
-        case 'sum':
+        default:
           title = id ? id : `Sum of ${name}`
           aggregateObj[title] = store[name].value + ((aggregateObj[title] as number) ?? 0)
           break
@@ -151,30 +147,3 @@ export function Pivot(
 
   return pivotTable
 }
-
-// console.log(
-//   Pivot(
-//     [
-//       {
-//         position: 1,
-//         TF: 100
-//       },
-//       {
-//         position: 2,
-//         TF: 140
-//       },
-//       {
-//         position: 3,
-//         TF: 20
-//       },
-//       {
-//         position: 1,
-//         TF: 10
-//       }
-//     ],
-//     'position',
-//     {
-//       TF: 'sum'
-//     }
-//   )
-// )
