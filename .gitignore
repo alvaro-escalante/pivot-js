@@ -18,4 +18,4 @@ Thumbs.db
 Icon?
 ![iI]con[_a-zA-Z0-9]
 /lib
-.testfile.ts
+src/testfile.ts
