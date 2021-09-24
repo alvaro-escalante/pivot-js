@@ -47,7 +47,6 @@ export const Pivot = (
           const val = typeof row[name] === 'string' && row[name] === '' ? 0 : 1
           store[name].value = store[name].value + val
           break
-
         case 'counta':
           if (!acc.has(row[index])) store[name] = { type, value: 0 }
           store[name].value = store[name].value + 1
