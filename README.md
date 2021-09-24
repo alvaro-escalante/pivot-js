@@ -50,7 +50,7 @@ const pivotTable = Pivot(
   data,
   'domain',
   {
-    domain: 'counter',
+    domain: 'count',
     traffic: 'sum',
     trustFlow: 'mean'
   },
