@@ -9,7 +9,7 @@ type AggFunc = {
 interface StoreNested {
   type: string
   value?: number
-  colection?: number[]
+  collection?: number[]
   title?: string
 }
 

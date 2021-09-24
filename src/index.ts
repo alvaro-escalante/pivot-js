@@ -9,7 +9,7 @@ export const Pivot = (
   // Initialise variables
   const store: Store = {}
   const totalHash: TotalHash = {}
-  const aggValues = ['counta', 'count', 'sum', 'mean', 'min', 'max']
+  const aggValues = ['counta', 'count', 'sum', 'mean', 'median', 'min', 'max']
 
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) =>
@@ -17,6 +17,12 @@ export const Pivot = (
       ? (a[index] as number) - (b[index] as number)
       : `${a[index]}`.localeCompare(`${b[index]}`)
   )
+
+  const median = (arr: number[]) => {
+    const mid = Math.floor(arr.length / 2)
+    const nums = [...arr].sort((a, b) => a - b)
+    return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2
+  }
 
   // Check there is an index coliumn
   validation.checkIndex(index, data[0])
@@ -54,8 +60,9 @@ export const Pivot = (
         case 'min':
         case 'max':
         case 'mean':
-          if (!acc.has(row[index])) store[name] = { type, colection: [] }
-          store[name].colection.push(row[name] as number)
+        case 'median':
+          if (!acc.has(row[index])) store[name] = { type, collection: [] }
+          store[name].collection.push(row[name] as number)
           break
         default:
           store[name] = {
@@ -85,14 +92,20 @@ export const Pivot = (
           break
         case 'mean':
           title = id ? id : `Average of ${name}`
-          const colection = store[name].colection
+
           aggregateObj[title] =
-            colection.reduce((total, num) => total + num) / colection.length
+            store[name].collection.reduce((total, num) => total + num) /
+            store[name].collection.length
+          break
+        case 'median':
+          title = id ? id : `Median of ${name}`
+
+          aggregateObj[title] = median(store[name].collection)
           break
         case 'min':
         case 'max':
           title = id ? id : `${type.charAt(0).toUpperCase() + type.slice(1)} of ${name}`
-          aggregateObj[title] = Math[type](...store[name].colection)
+          aggregateObj[title] = Math[type](...store[name].collection)
           break
         default:
           title = id ? id : `Sum of ${name}`
@@ -149,6 +162,12 @@ export const Pivot = (
         return acc !== 0 && evaluation ? acc : curr[value]
       }, 0)
 
+      continue
+    }
+
+    if (item.type === 'median') {
+      const numbers = data.map((obj) => obj[item.name])
+      totals[header] = median(numbers as number[])
       continue
     }
 

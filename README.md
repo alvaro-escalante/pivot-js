@@ -101,6 +101,7 @@ Will output:
 | counta | Count all entries including empty values in dimension |
 | sum    | Sum all values in dimension |
 | mean   | Average of all values in dimension — not rounded |
+| median | Median of all values in dimension — not rounded |
 | min    | Minimum of value in dimension |
 | max    | Maximun of value in dimension |
  

@@ -61,6 +61,17 @@ describe('Aggregates with auto rename', () => {
       { Rank: 'Grand Total', 'Max of page': 2 }
     ])
   })
+
+  test('Simple median with auto rename', () => {
+    const options = { revenue: 'median' }
+
+    expect(Pivot(data.median, 'page', options)).toEqual([
+      { Page: 1, 'Median of revenue': 70 },
+      { Page: 2, 'Median of revenue': 95 },
+      { Page: 3, 'Median of revenue': 20 },
+      { Page: 'Grand Total', 'Median of revenue': 60 }
+    ])
+  })
 })
 
 describe('Aggregates with renames', () => {
@@ -216,7 +227,7 @@ describe('Errors', () => {
     const options = { page: 'suma' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, min, max.`
+      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, median, min, max.`
     )
   })
 

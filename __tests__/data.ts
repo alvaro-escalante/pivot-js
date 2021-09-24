@@ -89,3 +89,30 @@ export const empty = [
     keyword: 'hey'
   }
 ]
+
+export const median = [
+  {
+    page: 1,
+    revenue: 100
+  },
+  {
+    page: 1,
+    revenue: 70
+  },
+  {
+    page: 2,
+    revenue: 140
+  },
+  {
+    page: 3,
+    revenue: 20
+  },
+  {
+    page: 1,
+    revenue: 10
+  },
+  {
+    page: 2,
+    revenue: 50
+  }
+]
