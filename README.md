@@ -46,16 +46,17 @@ const data = [
   }
 ]
 
-const pivotTable = Pivot(
-  data,
-  'domain',
-  {
-    domain: 'count',
-    traffic: 'sum',
-    trustFlow: 'mean'
-  },
-  ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
-)
+const index = 'domain'
+
+const aggFunc =   {
+  domain: 'count',
+  traffic: 'sum',
+  trustFlow: 'mean'
+}
+
+const rename = ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
+
+const pivotTable = Pivot(data, index, aggFunc, rename)
 
 console.log(pivotTable)
 /*
