@@ -1,1 +1,1 @@
-export declare function Pivot(data: Entries[], index: string, aggregate: AggFunc, rename?: string[]): any[];
+export declare const Pivot: (data: Entries[], index: string, aggregate: AggFunc, rename?: string[]) => any[];

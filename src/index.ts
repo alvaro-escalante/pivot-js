@@ -1,12 +1,12 @@
 import * as validation from './validations'
 // Pivot table function
-export function Pivot(
-  data: Entries[],
-  index: string,
-  aggregate: AggFunc,
-  rename: string[] = []
-) {
-  // Set starting variables
+export const Pivot = (
+  data: Entries[], // Data Array of Object
+  index: string = '', // Index column String
+  aggregate: AggFunc = {}, // Aggreate function object literal
+  rename: string[] = [] // Rename function array of strings
+) => {
+  // Initialise variables
   let counter: number = 0
   let len: number = 0
   const store: Store = {}
@@ -14,31 +14,34 @@ export function Pivot(
   const aggValues = ['count', 'sum', 'mean', 'min', 'max']
 
   // Order array by column index passed
-  const order: Entries[] = data.sort((a, b) => {
-    if (typeof a[index] === 'number') {
-      return (a[index] as number) - (b[index] as number)
-    } else {
-      return (a[index] as string).localeCompare(b[index] as string)
-    }
-  })
+  const order: Entries[] = data.sort((a, b) =>
+    typeof a[index] === 'number'
+      ? (a[index] as number) - (b[index] as number)
+      : `${a[index]}`.localeCompare(`${b[index]}`)
+  )
 
-  // Find wrong function for type of column
+  // Check there is an index coliumn
+  validation.checkIndex(index, data[0])
+
+  // Check there is at least one aggregate function
+  validation.checkOptions(aggregate)
+
+  // Find wrong function for the type of column
   validation.checkAggType(aggregate, data[0])
 
-  // Find wrong aggregate functions on aggregate obj values
+  // Find incorrect aggregate name on aggregate obj values
   validation.checkAggValues(aggregate, aggValues)
 
-  // Find wrong columns on aggregate obj keys
+  // Find wrong columns refered on aggregate obj keys
   validation.checkAggKeys(aggregate, Object.keys(data[0]))
 
-  // Check rename function has enough items
-  validation.checkRenames(rename, aggregate)
+  // Check rename function has enough items to much number of computed columns
+  validation.checkRenames(aggregate, rename)
 
   // Calculate pivots
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
     for (const [name, type] of Object.entries(aggregate)) {
-      len = !acc.has(row[index]) ? 1 : len + 1
       switch (type) {
         case 'count':
           store[name] = { type, value: counter }
@@ -50,6 +53,9 @@ export function Pivot(
           if (!acc.has(row[index])) store[name] = { type, minmax: [] }
           store[name].minmax.push(row[name] as number)
           break
+        case 'mean':
+          len = !acc.has(row[index]) ? 1 : len + 1
+
         default:
           store[name] = {
             type,
@@ -57,12 +63,13 @@ export function Pivot(
               ? (row[name] as number)
               : (store[name].value as number) + (row[name] as number)
           }
+
           break
       }
     }
 
     const aggregateObj: Entries = {}
-
+    // Compute collected pivots
     for (const [i, [name, type]] of Object.entries(aggregate).entries()) {
       const id = rename[i + 1] ?? false
       let title = ''
@@ -107,13 +114,14 @@ export function Pivot(
   const pivotTable = [...pivots.values()]
 
   // Calculate totals
+  const totals: Entries = {}
 
   // Get names of posibly renamed columns
   const headers: string[] = Object.keys(pivotTable[0])
   // Remove the first entry to use as row index
   const first: string = headers.splice(0, 1)[0]
 
-  const totals: Entries = {}
+  // Set totals name to match index column
   totals[first] = 'Grand Total'
 
   // Calculate totals based on original data and tabled data

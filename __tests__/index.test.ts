@@ -63,7 +63,7 @@ describe('Aggregates with auto rename', () => {
   })
 })
 
-describe('Aggregates with renanes', () => {
+describe('Aggregates with renames', () => {
   test('Count with renaming', () => {
     const options = { position: 'count' }
 
@@ -130,20 +130,93 @@ describe('Aggregates with renanes', () => {
   })
 })
 
-describe('Full tests', () => {})
+describe('Full tests', () => {
+  test('Multiple aggregate functions ', () => {
+    const options = { type: 'count', TE: 'sum', TF: 'mean' }
+    expect(Pivot(data.full, 'domain', options)).toEqual([
+      {
+        Domain: 'duckduckgo.com',
+        'Count of type': 3,
+        'Sum of TE': 6000,
+        'Mean of TF': 30
+      },
+      {
+        Domain: 'google.com',
+        'Count of type': 2,
+        'Sum of TE': 300,
+        'Mean of TF': 42
+      },
+      {
+        Domain: 'Grand Total',
+        'Count of type': 5,
+        'Sum of TE': 6300,
+        'Mean of TF': 34.8
+      }
+    ])
+  })
+
+  test('Duplicate aggregate functions ', () => {
+    const options = { type: 'count', TE: 'sum', TF: 'sum' }
+    expect(Pivot(data.full, 'domain', options)).toEqual([
+      {
+        Domain: 'duckduckgo.com',
+        'Count of type': 3,
+        'Sum of TE': 6000,
+        'Sum of TF': 90
+      },
+      {
+        Domain: 'google.com',
+        'Count of type': 2,
+        'Sum of TE': 300,
+        'Sum of TF': 84
+      },
+      {
+        Domain: 'Grand Total',
+        'Count of type': 5,
+        'Sum of TE': 6300,
+        'Sum of TF': 174
+      }
+    ])
+  })
+})
 
 describe('Errors', () => {
+  test('Missing index argument', () => {
+    const options = { keyword: 'count' }
+    expect(() => Pivot(data.auto, '', options)).toThrow(ReferenceError)
+    expect(() => Pivot(data.auto, '', options)).toThrow(
+      `Missing second argument "index", please provide a string to identify the index column`
+    )
+  })
+
+  test('Missing aggregate functions', () => {
+    expect(() => Pivot(data.auto, 'keyword')).toThrow(ReferenceError)
+    expect(() => Pivot(data.auto, 'keyword')).toThrow(
+      `No options provided for the 3 argument, please provide at least one aggregate function`
+    )
+  })
+
+  test('Not existing index column provided', () => {
+    const options = { keyword: 'count' }
+    expect(() => Pivot(data.auto, 'noindex', options)).toThrow(ReferenceError)
+    expect(() => Pivot(data.auto, 'noindex', options)).toThrow(
+      `The index column "noindex" does not exists`
+    )
+  })
+
   test('Not existing column on aggregate object', () => {
     const options = { notThere: 'sum' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
-    expect(() => Pivot(data.auto, 'keyword', options)).toThrow('notThere does not exists')
+    expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
+      `"notThere" does not exists`
+    )
   })
 
   test('Not existing aggregate function', () => {
     const options = { page: 'suma' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      "Incorrect aggregate function 'suma'. Allowed functions are count, sum, mean, min, max."
+      `Incorrect aggregate function "suma". Allowed functions are count, sum, mean, min, max.`
     )
   })
 
@@ -152,7 +225,7 @@ describe('Errors', () => {
     const rename = ['Page', 'Rank']
     expect(() => Pivot(data.auto, 'keyword', options, rename)).toThrow(TypeError)
     expect(() => Pivot(data.auto, 'keyword', options, rename)).toThrow(
-      'There should be 3 entries on the rename array, only 2 defined, make sure the index is also included'
+      `There should be "3" entries on the rename array, only "2" defined, make sure the index is also included`
     )
   })
 
@@ -161,7 +234,7 @@ describe('Errors', () => {
     const rename = ['Keyword', 'URL', 'Page', 'Rank']
     expect(() => Pivot(data.auto, 'keyword', options, rename)).toThrow(TypeError)
     expect(() => Pivot(data.auto, 'keyword', options, rename)).toThrow(
-      "The aggregate function sum cannot be used on the column url because it's a string"
+      `The aggregate function "sum" cannot be used on the column "url" because it's a string`
     )
   })
 })
