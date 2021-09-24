@@ -216,7 +216,7 @@ describe('Errors', () => {
     const options = { page: 'suma' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "suma". Allowed functions are count, sum, mean, min, max.`
+      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, min, max.`
     )
   })
 
@@ -240,6 +240,37 @@ describe('Errors', () => {
 })
 
 describe('Edge cases', () => {
+  test('Count on empty string', () => {
+    const options = { keyword: 'count' }
+    expect(Pivot(data.empty, 'position', options)).toEqual([
+      { Position: 1, 'Count of keyword': 1 },
+      { Position: 2, 'Count of keyword': 1 },
+      { Position: 3, 'Count of keyword': 1 },
+      { Position: 'Grand Total', 'Count of keyword': 3 }
+    ])
+  })
+
+  test('Count on empty string with index', () => {
+    const options = { keyword: 'count' }
+    expect(Pivot(data.empty, 'keyword', options)).toEqual([
+      { Keyword: '', 'Count of keyword': 0 },
+      { Keyword: 'bar', 'Count of keyword': 1 },
+      { Keyword: 'foo', 'Count of keyword': 1 },
+      { Keyword: 'hey', 'Count of keyword': 1 },
+      { Keyword: 'Grand Total', 'Count of keyword': 3 }
+    ])
+  })
+
+  test('Count all on empty string', () => {
+    const options = { keyword: 'counta' }
+    expect(Pivot(data.empty, 'position', options)).toEqual([
+      { Position: 1, 'Count of keyword': 2 },
+      { Position: 2, 'Count of keyword': 1 },
+      { Position: 3, 'Count of keyword': 1 },
+      { Position: 'Grand Total', 'Count of keyword': 4 }
+    ])
+  })
+
   test('Number as index', () => {
     const options = { position: 'count', TF: 'sum' }
     const rename = ['Rank', 'Counter', 'Trustflow']

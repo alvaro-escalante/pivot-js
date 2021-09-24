@@ -70,3 +70,22 @@ export const full = [
     TF: 42
   }
 ]
+
+export const empty = [
+  {
+    position: 1,
+    keyword: ''
+  },
+  {
+    position: 2,
+    keyword: 'foo'
+  },
+  {
+    position: 3,
+    keyword: 'bar'
+  },
+  {
+    position: 1,
+    keyword: 'hey'
+  }
+]

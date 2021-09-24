@@ -95,14 +95,15 @@ Will output:
 
 ## Available aggregate functions
 
-| Function       |
-| -------------- |
-| count |
-| sum   |
-| mean  |
-| min   |
-| max   |
-
+| Function  | Definition     |
+| -------------- | -------------------------------------- |
+| count  | Count all entries with values in dimension  |
+| counta | Count all entries including empty values in dimension |
+| sum    | Sum all values in dimension |
+| mean   | Average of all values in dimension — not rounded |
+| min    | Minimum of value in dimension |
+| max    | Maximun of value in dimension |
+ 
 ## Usage
 
 ### Pivot(data, index, values [,rename])
