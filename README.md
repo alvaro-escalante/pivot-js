@@ -96,7 +96,7 @@ Will output:
 ## Available aggregate functions
 
 | Function  | Definition     |
-| -------------- | -------------------------------------- |
+| :-------------- | :-------------------------------------- |
 | count  | Calculates the count of all values in a set |
 | counta | Calculates the count of all values in a set including empty strings |
 | sum    | Calculates the sum of values. |
