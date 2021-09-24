@@ -8,7 +8,6 @@ export const Pivot = (
 ) => {
   // Initialise variables
   let counter: number = 0
-  let len: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
   const aggValues = ['count', 'sum', 'mean', 'min', 'max']
@@ -47,15 +46,12 @@ export const Pivot = (
           store[name] = { type, value: counter }
           counter = !acc.has(row[index]) ? 1 : counter + 1
           break
-
         case 'min':
         case 'max':
-          if (!acc.has(row[index])) store[name] = { type, minmax: [] }
-          store[name].minmax.push(row[name] as number)
-          break
         case 'mean':
-          len = !acc.has(row[index]) ? 1 : len + 1
-
+          if (!acc.has(row[index])) store[name] = { type, colection: [] }
+          store[name].colection.push(row[name] as number)
+          break
         default:
           store[name] = {
             type,
@@ -63,7 +59,6 @@ export const Pivot = (
               ? (row[name] as number)
               : (store[name].value as number) + (row[name] as number)
           }
-
           break
       }
     }
@@ -80,13 +75,15 @@ export const Pivot = (
           aggregateObj[title] = counter
           break
         case 'mean':
-          title = id ? id : `Mean of ${name}`
-          aggregateObj[title] = store[name].value / len
+          title = id ? id : `Average of ${name}`
+          const colection = store[name].colection
+          aggregateObj[title] =
+            colection.reduce((total, num) => total + num) / colection.length
           break
         case 'min':
         case 'max':
           title = id ? id : `${type.charAt(0).toUpperCase() + type.slice(1)} of ${name}`
-          aggregateObj[title] = Math[type](...store[name].minmax)
+          aggregateObj[title] = Math[type](...store[name].colection)
           break
         default:
           title = id ? id : `Sum of ${name}`

@@ -32,9 +32,9 @@ describe('Aggregates with auto rename', () => {
     }
 
     expect(Pivot(data.auto, 'rank', options)).toEqual([
-      { Rank: 1, 'Mean of rank': 1 },
-      { Rank: 3, 'Mean of rank': 3 },
-      { Rank: 'Grand Total', 'Mean of rank': 1.6666666666666667 }
+      { Rank: 1, 'Average of rank': 1 },
+      { Rank: 3, 'Average of rank': 3 },
+      { Rank: 'Grand Total', 'Average of rank': 1.6666666666666667 }
     ])
   })
 
@@ -138,43 +138,43 @@ describe('Full tests', () => {
         Domain: 'duckduckgo.com',
         'Count of type': 3,
         'Sum of TE': 6000,
-        'Mean of TF': 30
+        'Average of TF': 30
       },
       {
         Domain: 'google.com',
         'Count of type': 2,
         'Sum of TE': 300,
-        'Mean of TF': 42
+        'Average of TF': 42
       },
       {
         Domain: 'Grand Total',
         'Count of type': 5,
         'Sum of TE': 6300,
-        'Mean of TF': 34.8
+        'Average of TF': 34.8
       }
     ])
   })
 
-  test('Duplicate aggregate functions ', () => {
-    const options = { type: 'count', TE: 'sum', TF: 'sum' }
+  test('Duplicate mean aggregate functions ', () => {
+    const options = { type: 'count', TE: 'mean', TF: 'mean' }
     expect(Pivot(data.full, 'domain', options)).toEqual([
       {
         Domain: 'duckduckgo.com',
         'Count of type': 3,
-        'Sum of TE': 6000,
-        'Sum of TF': 90
+        'Average of TE': 2000,
+        'Average of TF': 30
       },
       {
         Domain: 'google.com',
         'Count of type': 2,
-        'Sum of TE': 300,
-        'Sum of TF': 84
+        'Average of TE': 150,
+        'Average of TF': 42
       },
       {
         Domain: 'Grand Total',
         'Count of type': 5,
-        'Sum of TE': 6300,
-        'Sum of TF': 174
+        'Average of TE': 1260,
+        'Average of TF': 34.8
       }
     ])
   })

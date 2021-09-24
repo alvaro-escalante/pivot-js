@@ -21,7 +21,7 @@ $ yarn add pivot-js
 ## Example
 
 ```js
-import Pivot from 'pivot-js'
+import { Pivot } from 'pivot-js'
 
 const data = [
   {
