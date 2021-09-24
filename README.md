@@ -63,7 +63,7 @@ console.log(pivotTable)
 
 Will output:
 
-```
+```js
 [{
   Domain: 'duckduckgo.com',
   'Frequency of Domain': 2,
