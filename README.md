@@ -88,6 +88,16 @@ console.log(pivotTable)
 
 ---
 
+## Available aggregate functions
+
+| Function       |
+| -------------- |
+| count |
+| sum   |
+| mean  |
+| min   |
+| max   |
+
 ## Usage
 
 ### Pivot(data, index, values [,rename])
