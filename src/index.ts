@@ -7,10 +7,9 @@ export const Pivot = (
   rename: string[] = [] // Rename function array of strings
 ) => {
   // Initialise variables
-  let counter: number = 0
   const store: Store = {}
   const totalHash: TotalHash = {}
-  const aggValues = ['count', 'sum', 'mean', 'min', 'max']
+  const aggValues = ['counta', 'count', 'sum', 'mean', 'min', 'max']
 
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) =>
@@ -43,8 +42,14 @@ export const Pivot = (
     for (const [name, type] of Object.entries(aggregate)) {
       switch (type) {
         case 'count':
-          store[name] = { type, value: counter }
-          counter = !acc.has(row[index]) ? 1 : counter + 1
+          if (!acc.has(row[index])) store[name] = { type, value: 0 }
+          const val = typeof row[name] === 'string' && row[name] === '' ? 0 : 1
+          store[name].value = store[name].value + val
+          break
+
+        case 'counta':
+          if (!acc.has(row[index])) store[name] = { type, value: 0 }
+          store[name].value = store[name].value + 1
           break
         case 'min':
         case 'max':
@@ -72,7 +77,11 @@ export const Pivot = (
       switch (type) {
         case 'count':
           title = id ? id : `Count of ${name}`
-          aggregateObj[title] = counter
+          aggregateObj[title] = store[name].value
+          break
+        case 'counta':
+          title = id ? id : `Count of ${name}`
+          aggregateObj[title] = store[name].value
           break
         case 'mean':
           title = id ? id : `Average of ${name}`
