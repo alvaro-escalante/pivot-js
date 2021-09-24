@@ -59,7 +59,11 @@ const rename = ['Domain', 'Frequency of Domain', 'Traffic Sum', 'Average TF']
 const pivotTable = Pivot(data, index, aggFunc, rename)
 
 console.log(pivotTable)
-/*
+```
+
+Will output:
+
+```
 [{
   Domain: 'duckduckgo.com',
   'Frequency of Domain': 2,
@@ -78,8 +82,8 @@ console.log(pivotTable)
   'Traffic Sum': 3300,
   'Average TF': 36
 }]
-*/
 ```
+
 
 | Domain         | Frequency of Domain | Traffic Sum | Average TF |
 | -------------- | ------------------- | ----------- | ---------- |
