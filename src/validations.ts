@@ -27,7 +27,7 @@ export const checkAggType = (aggregate: AggFunc, data: Entries) => {
   const property =
     Object.entries(aggregate).find(
       ([key, value]) =>
-        typeof data[key] === 'string' && !['count', 'counta'].includes(value)
+        typeof data[key] === 'string' && !['count', 'counta', 'mode'].includes(value)
     ) ?? ''
 
   if (property.length) {

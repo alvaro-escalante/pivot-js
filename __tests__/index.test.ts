@@ -2,19 +2,27 @@ import { Pivot } from '../src/index'
 import * as data from './data'
 
 describe('Aggregates with auto rename', () => {
-  test('Simple count with auto rename', () => {
-    const options = {
-      rank: 'count'
-    }
-
-    expect(Pivot(data.auto, 'rank', options)).toEqual([
-      { Rank: 1, 'Count of rank': 2 },
-      { Rank: 3, 'Count of rank': 1 },
-      { Rank: 'Grand Total', 'Count of rank': 3 }
+  test('Count, ignoring empty string, auto rename', () => {
+    const options = { keyword: 'count' }
+    expect(Pivot(data.empty, 'position', options)).toEqual([
+      { Position: 1, 'Count of keyword': 1 },
+      { Position: 2, 'Count of keyword': 1 },
+      { Position: 3, 'Count of keyword': 1 },
+      { Position: 'Grand Total', 'Count of keyword': 3 }
     ])
   })
 
-  test('Simple sum with auto rename', () => {
+  test('Counta, including empty string auto rename', () => {
+    const options = { keyword: 'counta' }
+    expect(Pivot(data.empty, 'position', options)).toEqual([
+      { Position: 1, 'Count of keyword': 2 },
+      { Position: 2, 'Count of keyword': 1 },
+      { Position: 3, 'Count of keyword': 1 },
+      { Position: 'Grand Total', 'Count of keyword': 4 }
+    ])
+  })
+
+  test('Sum auto rename', () => {
     const options = {
       rank: 'sum'
     }
@@ -26,19 +34,48 @@ describe('Aggregates with auto rename', () => {
     ])
   })
 
-  test('Simple mean with auto rename', () => {
+  test('Mean auto rename', () => {
     const options = {
       rank: 'mean'
     }
 
     expect(Pivot(data.auto, 'rank', options)).toEqual([
-      { Rank: 1, 'Average of rank': 1 },
-      { Rank: 3, 'Average of rank': 3 },
-      { Rank: 'Grand Total', 'Average of rank': 1.6666666666666667 }
+      { Rank: 1, 'Mean of rank': 1 },
+      { Rank: 3, 'Mean of rank': 3 },
+      { Rank: 'Grand Total', 'Mean of rank': 1.6666666666666667 }
     ])
   })
 
-  test('Simple min with auto rename', () => {
+  test('Median auto rename', () => {
+    const options = { revenue: 'median' }
+
+    expect(Pivot(data.median, 'page', options)).toEqual([
+      { Page: 1, 'Median of revenue': 70 },
+      { Page: 2, 'Median of revenue': 95 },
+      { Page: 3, 'Median of revenue': 20 },
+      { Page: 'Grand Total', 'Median of revenue': 60 }
+    ])
+  })
+
+  test('Mode number auto rename', () => {
+    const options = { position: 'mode' }
+
+    expect(Pivot(data.mode, 'keyword', options)).toEqual([
+      { Keyword: 'car hire', 'Mode of position': '1' },
+      { Keyword: 'Grand Total', 'Mode of position': '1' }
+    ])
+  })
+
+  test('Mode string auto rename', () => {
+    const options = { url: 'mode' }
+
+    expect(Pivot(data.mode, 'keyword', options)).toEqual([
+      { Keyword: 'car hire', 'Mode of url': 'google.com' },
+      { Keyword: 'Grand Total', 'Mode of url': 'google.com' }
+    ])
+  })
+
+  test('Min auto rename', () => {
     const options = {
       page: 'min'
     }
@@ -50,7 +87,7 @@ describe('Aggregates with auto rename', () => {
     ])
   })
 
-  test('Simple max with auto rename', () => {
+  test('Max auto rename', () => {
     const options = {
       page: 'max'
     }
@@ -59,17 +96,6 @@ describe('Aggregates with auto rename', () => {
       { Rank: 1, 'Max of page': 2 },
       { Rank: 3, 'Max of page': 2 },
       { Rank: 'Grand Total', 'Max of page': 2 }
-    ])
-  })
-
-  test('Simple median with auto rename', () => {
-    const options = { revenue: 'median' }
-
-    expect(Pivot(data.median, 'page', options)).toEqual([
-      { Page: 1, 'Median of revenue': 70 },
-      { Page: 2, 'Median of revenue': 95 },
-      { Page: 3, 'Median of revenue': 20 },
-      { Page: 'Grand Total', 'Median of revenue': 60 }
     ])
   })
 })
@@ -149,19 +175,19 @@ describe('Full tests', () => {
         Domain: 'duckduckgo.com',
         'Count of type': 3,
         'Sum of TE': 6000,
-        'Average of TF': 30
+        'Mean of TF': 30
       },
       {
         Domain: 'google.com',
         'Count of type': 2,
         'Sum of TE': 300,
-        'Average of TF': 42
+        'Mean of TF': 42
       },
       {
         Domain: 'Grand Total',
         'Count of type': 5,
         'Sum of TE': 6300,
-        'Average of TF': 34.8
+        'Mean of TF': 34.8
       }
     ])
   })
@@ -172,20 +198,20 @@ describe('Full tests', () => {
       {
         Domain: 'duckduckgo.com',
         'Count of type': 3,
-        'Average of TE': 2000,
-        'Average of TF': 30
+        'Mean of TE': 2000,
+        'Mean of TF': 30
       },
       {
         Domain: 'google.com',
         'Count of type': 2,
-        'Average of TE': 150,
-        'Average of TF': 42
+        'Mean of TE': 150,
+        'Mean of TF': 42
       },
       {
         Domain: 'Grand Total',
         'Count of type': 5,
-        'Average of TE': 1260,
-        'Average of TF': 34.8
+        'Mean of TE': 1260,
+        'Mean of TF': 34.8
       }
     ])
   })
@@ -227,7 +253,7 @@ describe('Errors', () => {
     const options = { page: 'suma' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, median, min, max.`
+      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, median, mode, min, max.`
     )
   })
 
@@ -251,16 +277,6 @@ describe('Errors', () => {
 })
 
 describe('Edge cases', () => {
-  test('Count on empty string', () => {
-    const options = { keyword: 'count' }
-    expect(Pivot(data.empty, 'position', options)).toEqual([
-      { Position: 1, 'Count of keyword': 1 },
-      { Position: 2, 'Count of keyword': 1 },
-      { Position: 3, 'Count of keyword': 1 },
-      { Position: 'Grand Total', 'Count of keyword': 3 }
-    ])
-  })
-
   test('Count on empty string with index', () => {
     const options = { keyword: 'count' }
     expect(Pivot(data.empty, 'keyword', options)).toEqual([
@@ -269,16 +285,6 @@ describe('Edge cases', () => {
       { Keyword: 'foo', 'Count of keyword': 1 },
       { Keyword: 'hey', 'Count of keyword': 1 },
       { Keyword: 'Grand Total', 'Count of keyword': 3 }
-    ])
-  })
-
-  test('Count all on empty string', () => {
-    const options = { keyword: 'counta' }
-    expect(Pivot(data.empty, 'position', options)).toEqual([
-      { Position: 1, 'Count of keyword': 2 },
-      { Position: 2, 'Count of keyword': 1 },
-      { Position: 3, 'Count of keyword': 1 },
-      { Position: 'Grand Total', 'Count of keyword': 4 }
     ])
   })
 

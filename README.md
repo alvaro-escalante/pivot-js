@@ -97,13 +97,14 @@ Will output:
 
 | Function  | Definition     |
 | -------------- | -------------------------------------- |
-| count  | Count all entries with values in dimension  |
-| counta | Count all entries including empty values in dimension |
-| sum    | Sum all values in dimension |
-| mean   | Average of all values in dimension — not rounded |
-| median | Median of all values in dimension — not rounded |
-| min    | Minimum of value in dimension |
-| max    | Maximun of value in dimension |
+| count  | Calculates the count of all values in a set |
+| counta | Calculates the count of all values in a set including empty strings |
+| sum    | Calculates the sum of values. |
+| mean   | Calculates the average in a set of values — not rounded |
+| median | Calculates the median in a set of values — not rounded |
+| mode   | Calculates the mode in a set of values |
+| min    | Minimum gets the minimum value in a set of values |
+| max    | Maximun gets the maximum value in a set of values |
  
 ## Usage
 
@@ -112,11 +113,14 @@ Will output:
 * `data` *`<Array<Object>>`* Prepared Array of objects to pivot against.
 * `index` *`<string>`* The index row to use as pivot.
 * `values` *`<Object>`* Aggregate functions
-  * `[column: <string>]:` `'count'`: Count how many instances of the row.
-  * `[column: <string>]:` `'sum'` : Sum entries.
-  * `[column: <string>]:` `'mean'` : Calculate the average of all entries.
-  * `[column: <string>]:` `'min'`: Calculate the min value for all entries.
-  * `[column: <string>]:` `'max'`: Calculate the max value for all entries.
+  * `[column: <string>]:` `'count'`
+  * `[column: <string>]:` `'counta'`
+  * `[column: <string>]:` `'sum'` 
+  * `[column: <string>]:` `'mean'` 
+  * `[column: <string>]:` `'median'` 
+  * `[column: <string>]:` `'mode'` 
+  * `[column: <string>]:` `'min'`
+  * `[column: <string>]:` `'max'`
 * `rename` *`<Array><string>>`* Optionally rename the output columns, the order is important.
 * `returns`: *`<Array<Object>>`*
 

@@ -116,3 +116,21 @@ export const median = [
     revenue: 50
   }
 ]
+
+export const mode = [
+  {
+    keyword: 'car hire',
+    position: 1,
+    url: 'google.com'
+  },
+  {
+    keyword: 'car hire',
+    position: 2,
+    url: 'google.com'
+  },
+  {
+    keyword: 'car hire',
+    position: 1,
+    url: 'example.com'
+  }
+]
