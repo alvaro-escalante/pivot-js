@@ -2,6 +2,7 @@
 ![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)
 ![code-size](https://img.shields.io/github/repo-size/alvaro-escalante/pivot-js?style=for-the-badge)
 ![min-size](https://img.shields.io/bundlephobia/min/pivot-table-js?style=for-the-badge)
+![types](https://img.shields.io/npm/types/pivot-table-js?style=for-the-badge)
 
 
 
