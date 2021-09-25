@@ -1,5 +1,7 @@
-[![build](https://img.shields.io/travis/alvaro-escalante/pivot-js?style=for-the-badge)](https://api.travis-ci.com/alvaro-escalante/pivot-js.svg?branch=master&status=passed)
-[![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)](https://github.com/alvaro-escalante/pivot-js/)
+[![build](https://img.shields.io/travis/alvaro-escalante/pivot-js?style=for-the-badge)](https://app.travis-ci.com/github/alvaro-escalante/pivot-js)
+![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)]
+![code-size](https://img.shields.io/github/repo-size/alvaro-escalante/pivot-js?style=for-the-badge)
+
 
 
 # pivot-js
