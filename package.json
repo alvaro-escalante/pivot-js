@@ -26,8 +26,8 @@
     "Pivot Table JS"
   ],
   "engines": {
-    "node": ">=14.0.0 <15",
-    "npm": ">-7.0.0 <7.15.1"
+    "node": ">=14.0.0 <17.0.0",
+    "npm": ">-7.0.0 <7.16.0"
   },
   "author": "Alvaro Fernandez",
   "license": "ISC",
