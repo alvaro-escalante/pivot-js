@@ -1,7 +1,9 @@
 [![build](https://img.shields.io/travis/alvaro-escalante/pivot-js?style=for-the-badge)](https://app.travis-ci.com/github/alvaro-escalante/pivot-js)
 ![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)
 ![min-size](https://img.shields.io/bundlephobia/min/pivot-table-js?style=for-the-badge)
-![types](https://img.shields.io/npm/types/pivot-table-js?style=for-the-badge)
+![types](https://img.shields.io/npm/types/pivot-table-js?style=for-the-badge)<br>
+![node](https://img.shields.io/node/v/pivot-table-js?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/pivot-table-js?style=for-the-badge)
 
 
 # pivot-table-js
