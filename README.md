@@ -1,7 +1,6 @@
 [![build](https://img.shields.io/travis/alvaro-escalante/pivot-js?style=for-the-badge)](https://app.travis-ci.com/github/alvaro-escalante/pivot-js)
-![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)]
+![code-size](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=for-the-badge)
 ![code-size](https://img.shields.io/github/repo-size/alvaro-escalante/pivot-js?style=for-the-badge)
-
 
 
 # pivot-js
