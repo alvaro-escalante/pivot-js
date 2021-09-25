@@ -1,6 +1,6 @@
 {
-  "name": "pivot-tables-js",
-  "version": "1.0.0",
+  "name": "pivot-js",
+  "version": "1.0.1",
   "typings": "@types/declarations.d.ts",
   "description": "A lightweight module that takes an array of objects and outputs a pivoted array of objects back. Emulating excel pivot tables and inspired by Python Pandas pivot.",
   "main": "lib/index.js",

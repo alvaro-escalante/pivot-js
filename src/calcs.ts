@@ -25,6 +25,6 @@ export const mode = (arr: number[]) => {
     .join('|')
 }
 
-export const caps = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+export const caps = (el: string) => {
+  return el.charAt(0).toUpperCase() + el.slice(1)
 }
