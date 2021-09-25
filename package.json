@@ -1,8 +1,8 @@
 {
-  "name": "pivot-js",
+  "name": "pivot-table-js",
   "version": "1.0.1",
   "typings": "@types/declarations.d.ts",
-  "description": "A lightweight module that takes an array of objects and outputs a pivoted array of objects back. Emulating excel pivot tables and inspired by Python Pandas pivot.",
+  "description": "A lightweight module that takes an array of objects and produces an array of objects based on the aggregate values. Emulating excel pivot tables.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -18,10 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "issues": "https://github.com/alvaro-escalante/pivot-js/issues",
-    "url": "git+https://github.com/alvaro-escalante/pivot-js.git"
+    "issues": "https://github.com/alvaro-escalante/pivot-table-js/issues",
+    "url": "git+https://github.com/alvaro-escalante/pivot-table-js.git"
   },
-  "keywords": ["Pivot", "Pivot Table JS"],
+  "keywords": [
+    "Pivot",
+    "Pivot Table",
+    "Pivot Table JS"
+  ],
   "author": "Alvaro Fernandez",
   "license": "ISC",
   "devDependencies": {
@@ -34,5 +38,7 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.4.3"
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }
