@@ -18,8 +18,8 @@
   },
   "repository": {
     "type": "git",
-    "issues": "https://github.com/alvaro-escalante/pivot-table-js/issues",
-    "url": "git+https://github.com/alvaro-escalante/pivot-table-js.git"
+    "issues": "https://github.com/alvaro-escalante/pivot-js/issues",
+    "url": "git+https://github.com/alvaro-escalante/pivot-js.git"
   },
   "keywords": [
     "Pivot",
