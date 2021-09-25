@@ -1,7 +1,7 @@
 {
   "name": "pivot-table-js",
-  "version": "1.0.6",
-  "description": "A lightweight module that takes an array of objects and produces an array of objects based on the aggregate values. Emulating excel pivot tables.",
+  "version": "1.0.7",
+  "description": "A lightweight module that takes an array of objects and produces an array of objects back based on the aggregate functions. Emulating excel pivot tables",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {

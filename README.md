@@ -4,12 +4,11 @@
 ![types](https://img.shields.io/npm/types/pivot-table-js?style=for-the-badge)
 
 
-
 # pivot-table-js
 
-A lightweight module that takes an array of objects and produces an array of objects based on the aggregate values. Emulating excel pivot tables.
+A lightweight module that takes an array of objects and produces an array of objects back based on the aggregate functions. Emulating excel pivot tables.
 
-`pivot-table-js` can calculate different/same aggregate values for each column. the results can also be optionally renamed.
+`pivot-table-js` can calculate different aggregate functions on sets of values. The results can be optionally renamed.
 
 ## Install
 

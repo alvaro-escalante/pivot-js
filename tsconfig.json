@@ -14,7 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "rootDir": "./src",
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "typeRoots": ["./node_modules/@types", ".src/@types"],
     "importsNotUsedAsValues": "preserve"
   },
   "include": ["src", "__tests__/data.ts"],
