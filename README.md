@@ -1,3 +1,6 @@
+[![build](https://img.shields.io/github/languages/code-size/alvaro-escalante/pivot-js?style=flat-square)](https://github.com/alvaro-escalante/pivot-js/)
+
+
 # pivot-js
 
 A lightweight module that takes an array of objects and produces an array of objects based on the aggregate values. Emulating excel pivot tables.
