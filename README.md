@@ -3,30 +3,30 @@
 ![code-size](https://img.shields.io/github/repo-size/alvaro-escalante/pivot-js?style=for-the-badge)
 
 
-# pivot-js
+# pivot-table
 
 A lightweight module that takes an array of objects and produces an array of objects based on the aggregate values. Emulating excel pivot tables.
 
-`pivot-js` can calculate different/same aggregate values for each column. the results can also be optionally renamed.
+`pivot-table-js` can calculate different/same aggregate values for each column. the results can also be optionally renamed.
 
 ## Install
 
 Using npm:
 
 ```console
-$ npm install pivot-js
+$ npm install pivot-table-js
 ```
 
 Using yarn:
 
 ```console
-$ yarn add pivot-js
+$ yarn add pivot-table-js
 ```
 
 ## Example
 
 ```js
-import { Pivot } from 'pivot-js'
+import { Pivot } from 'pivot-table-js'
 
 const data = [
   {
