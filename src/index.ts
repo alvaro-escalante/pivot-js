@@ -19,6 +19,9 @@ export const Pivot = (
       : `${a[index]}`.localeCompare(`${b[index]}`)
   )
 
+  // Make sure the data array is not empty
+  validation.checkData(data)
+
   // Check there is an index coliumn
   validation.checkIndex(index, data[0])
 

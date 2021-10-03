@@ -1,3 +1,11 @@
+export const checkData = (data: Entries[]) => {
+  if (!data.length) {
+    throw new Error(
+      'The array is empty please make sure it includes the objects to pivot with'
+    )
+  }
+}
+
 // Check there is an index coliumn
 export const checkIndex = (index: string, data: Entries) => {
   if (!index.length) {

@@ -218,6 +218,14 @@ describe('Full tests', () => {
 })
 
 describe('Errors', () => {
+  test('Empty data', () => {
+    const options = { keyword: 'count' }
+    expect(() => Pivot([], 'keyword', options)).toThrow(Error)
+    expect(() => Pivot([], 'keyword', options)).toThrow(
+      'The array is empty please make sure it includes the objects to pivot with'
+    )
+  })
+
   test('Missing index argument', () => {
     const options = { keyword: 'count' }
     expect(() => Pivot(data.auto, '', options)).toThrow(ReferenceError)
