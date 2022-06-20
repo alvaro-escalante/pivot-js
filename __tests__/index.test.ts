@@ -4,6 +4,7 @@ import * as data from './data'
 describe('Aggregates with auto rename', () => {
   test('Count, ignoring empty string, auto rename', () => {
     const options = { keyword: 'count' }
+
     expect(Pivot(data.empty, 'position', options)).toEqual([
       { Position: 1, 'Count of keyword': 1 },
       { Position: 2, 'Count of keyword': 1 },
