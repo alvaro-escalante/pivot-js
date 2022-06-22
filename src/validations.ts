@@ -33,10 +33,15 @@ export const checkOptions = (aggregate: AggFunc) => {
 // Find wrong function for type of column
 export const checkAggType = (aggregate: AggFunc, data: Entries) => {
   const property =
-    Object.entries(aggregate).find(
-      ([key, value]) =>
-        typeof data[key] === 'string' && !['count', 'counta', 'mode'].includes(value)
-    ) ?? ''
+    Object.entries(aggregate).find(([key, value]) => {
+      const typeValue = typeof value === 'string' ? [value] : value
+
+      const inclusion = !typeValue.some((entry) => {
+        !['count', 'counta', 'mode'].includes(entry)
+      })
+
+      typeof data[key] === 'string' && inclusion
+    }) ?? ''
 
   if (property.length) {
     throw new TypeError(
@@ -47,10 +52,8 @@ export const checkAggType = (aggregate: AggFunc, data: Entries) => {
 
 // Find wrong aggregate functions on aggregate obj values
 export const checkAggValues = (aggregate: AggFunc, aggValues: string[]) => {
-  const missing =
-    Object.values(aggregate).find(
-      (val) => !aggValues.some((entry) => entry.includes(val))
-    ) ?? ''
+  const values = Object.values(aggValues)
+  const missing = values.find((val) => !aggValues.includes(val)) ?? ''
 
   if (missing) {
     throw new ReferenceError(

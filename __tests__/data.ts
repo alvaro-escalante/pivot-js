@@ -134,3 +134,21 @@ export const mode = [
     url: 'example.com'
   }
 ]
+
+export const dub = [
+  {
+    keyword: 'car hire',
+    position: 1,
+    url: 'google.com'
+  },
+  {
+    keyword: 'car hire',
+    position: 2,
+    url: 'google.com'
+  },
+  {
+    keyword: 'car hire',
+    position: 1,
+    url: 'example.com'
+  }
+]

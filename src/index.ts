@@ -43,69 +43,86 @@ export const Pivot = (
   // Calculate pivots
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
-    for (const [name, type] of Object.entries(aggregate)) {
-      switch (type) {
-        case 'count':
-          if (!acc.has(row[index])) store[name] = { type, value: 0 }
-          const val = typeof row[name] === 'string' && row[name] === '' ? 0 : 1
-          store[name].value = store[name].value + val
-          break
-        case 'counta':
-          if (!acc.has(row[index])) store[name] = { type, value: 0 }
-          store[name].value = store[name].value + 1
-          break
-        case 'min':
-        case 'max':
-        case 'mean':
-        case 'median':
-        case 'mode':
-          if (!acc.has(row[index])) store[name] = { type, collection: [] }
-          store[name].collection.push(row[name] as number)
-          break
-        default:
-          store[name] = {
-            type,
-            value: !acc.has(row[index])
+    for (const [name, types] of Object.entries(aggregate)) {
+      for (const type of Object.values(types).flat()) {
+        switch (type) {
+          case 'count':
+            if (!acc.has(row[index])) {
+              if (!(name in store)) store[name] = {}
+              store[name][type] = 0
+            }
+
+            const val = typeof row[name] === 'string' && row[name] === '' ? 0 : 1
+            store[name][type] = (store[name][type] as number) + val
+            break
+          case 'counta':
+            if (!acc.has(row[index])) {
+              if (!(name in store)) store[name] = {}
+              store[name][type] = 0
+            }
+
+            store[name][type] = (store[name][type] as number) + 1
+            break
+          case 'min':
+          case 'max':
+          case 'mean':
+          case 'median':
+          case 'mode':
+            if (!acc.has(row[index])) {
+              if (!(name in store)) store[name] = {}
+              store[name][type] = []
+            }
+            ;(store[name][type] as Array<string | number>).push(row[name] as number)
+
+            console.log(store[name][type])
+
+            break
+          default:
+            store[name][type] = !acc.has(row[index])
               ? (row[name] as number)
-              : (store[name].value as number) + (row[name] as number)
-          }
-          break
+              : (store[name][type] as number) + (row[name] as number)
+            break
+        }
       }
     }
 
     const aggregateObj: Entries = {}
     // Compute collected pivots
-    for (const [i, [name, type]] of Object.entries(aggregate).entries()) {
+    for (const [i, [name, types]] of Object.entries(aggregate).entries()) {
       const id = rename[i + 1] ?? false
       let title = ''
 
-      switch (type) {
-        case 'count':
-          title = id ? id : `Count of ${name}`
-          aggregateObj[title] = store[name].value
-          break
-        case 'counta':
-          title = id ? id : `Count of ${name}`
-          aggregateObj[title] = store[name].value
-          break
-        case 'mean':
-        case 'median':
-        case 'mode':
-          title = id ? id : `${calcs.caps(type)} of ${name}`
-          aggregateObj[title] = calcs[type](store[name].collection)
-          break
-        case 'min':
-        case 'max':
-          title = id ? id : `${calcs.caps(type)} of ${name}`
-          aggregateObj[title] = Math[type](...store[name].collection)
-          break
-        default:
-          title = id ? id : `Sum of ${name}`
-          aggregateObj[title] = ((aggregateObj[title] as number) || 0) + store[name].value
-          break
-      }
+      for (const type of Object.values(types).flat()) {
+        switch (type) {
+          case 'count':
+            title = id ? id : `Count of ${name}`
+            aggregateObj[title] = store[name][type]
+            break
+          case 'counta':
+            title = id ? id : `Count of ${name}`
+            aggregateObj[title] = store[name][type]
+            break
+          case 'mean':
+          case 'median':
+          case 'mode':
+            title = id ? id : `${calcs.caps(type)} of ${name}`
+            const values = store[name][type] as number[]
+            aggregateObj[title] = calcs[type](values)
+            break
+          case 'min':
+          case 'max':
+            title = id ? id : `${calcs.caps(type)} of ${name}`
+            aggregateObj[title] = Math[type](...(store[name][type] as number[]))
+            break
+          default:
+            title = id ? id : `Sum of ${name}`
+            aggregateObj[title] =
+              ((aggregateObj[title] as number) || 0) + (store[name][type] as number)
+            break
+        }
 
-      totalHash[title] = { type, name }
+        totalHash[title] = { type, name }
+      }
     }
 
     // Add default name to first entry or use renames array
