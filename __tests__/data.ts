@@ -8,8 +8,8 @@ export const auto = [
   {
     keyword: 'car rental',
     url: 'https://www.budget.com',
-    rank: 1,
-    page: 2
+    page: 2,
+    rank: 1
   },
   {
     keyword: 'car hire',

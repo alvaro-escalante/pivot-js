@@ -12,6 +12,7 @@ A lightweight module that takes an array of objects and produces an array of obj
 
 `pivot-table-js` can calculate different aggregate functions on sets of values. The results can be optionally renamed.
 
+
 ## Install
 
 Using npm:
@@ -30,6 +31,7 @@ $ yarn add pivot-table-js
 
 ```js
 import { Pivot } from 'pivot-table-js'
+
 
 const data = [
   {
@@ -54,12 +56,13 @@ const data = [
   }
 ]
 
+
 const index = 'domain'
 
 const aggFunc =   {
-  domain: 'count',
-  traffic: 'sum',
-  trustFlow: 'mean'
+  domain: 'count', 
+  traffic: 'sum', 
+  trustFlow: 'mean' 
 }
 
 const rename = ['Domain', 'Frequency', 'Traffic Sum', 'Average TF']
@@ -99,6 +102,19 @@ Will output:
 | google.com     | 2         | 300         | 42         |
 | Grand Total    | 4         | 3300        | 36         |
 
+
+## Updates
+
+New feature allows for multiple funcions on the same column, just enclose the type of funcions in an array 
+
+```js
+const aggFunc =   {
+  domain: count', 
+  traffic: ['sum', 'min'], 
+  trustFlow: 'mean' 
+}
+```
+
 ---
 
 ## Available aggregate functions
@@ -121,15 +137,8 @@ Will output:
 * `data` *`<Array<Object>>`* Prepared Array of objects to pivot against.
 * `index` *`<string>`* The index row to use as pivot.
 * `values` *`<Object>`* Aggregate functions
-  * `[column: <string>]:` `'count'`
-  * `[column: <string>]:` `'counta'`
-  * `[column: <string>]:` `'sum'` 
-  * `[column: <string>]:` `'mean'` 
-  * `[column: <string>]:` `'median'` 
-  * `[column: <string>]:` `'mode'` 
-  * `[column: <string>]:` `'min'`
-  * `[column: <string>]:` `'max'`
-* `rename` *`<Array><string>>`* Optionally rename the output columns, the order is important.
+  * `[column: <string>]: <Array<string>> | string` Use array for more than one option on the same column
+* `rename` *`<Array<string>>`* Optionally rename the output columns, the order is important.
 * `returns`: *`<Array<Object>>`*
 
 ---

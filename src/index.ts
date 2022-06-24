@@ -44,7 +44,7 @@ export const Pivot = (
   const pivots = order.reduce((acc, row) => {
     // Collect data for pivots
     for (const [name, types] of Object.entries(aggregate)) {
-      for (const type of Object.values(types).flat()) {
+      for (const type of Object.values([types]).flat()) {
         switch (type) {
           case 'count':
             if (!acc.has(row[index])) {
@@ -73,14 +73,15 @@ export const Pivot = (
               store[name][type] = []
             }
             ;(store[name][type] as Array<string | number>).push(row[name] as number)
-
-            console.log(store[name][type])
-
             break
           default:
-            store[name][type] = !acc.has(row[index])
-              ? (row[name] as number)
-              : (store[name][type] as number) + (row[name] as number)
+            if (!acc.has(row[index])) {
+              if (!(name in store)) store[name] = {}
+              store[name][type] = 0
+            }
+
+            store[name][type] = (store[name][type] as number) + (row[name] as number)
+
             break
         }
       }
@@ -92,7 +93,7 @@ export const Pivot = (
       const id = rename[i + 1] ?? false
       let title = ''
 
-      for (const type of Object.values(types).flat()) {
+      for (const type of Object.values([types]).flat()) {
         switch (type) {
           case 'count':
             title = id ? id : `Count of ${name}`

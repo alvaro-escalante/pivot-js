@@ -30,29 +30,44 @@ export const checkOptions = (aggregate: AggFunc) => {
   }
 }
 
+// Find wrong columns on aggregate obj keys
+export const checkAggKeys = (aggregate: AggFunc, main: string[]) => {
+  const missing = Object.keys(aggregate).find((entry) => !main.includes(entry))
+
+  if (missing) {
+    throw new ReferenceError(`"${missing}" does not exists.`)
+  }
+}
+
 // Find wrong function for type of column
 export const checkAggType = (aggregate: AggFunc, data: Entries) => {
-  const property =
-    Object.entries(aggregate).find(([key, value]) => {
-      const typeValue = typeof value === 'string' ? [value] : value
+  type PropTypes = {
+    key?: string
+    inclusion?: string
+  }
 
-      const inclusion = !typeValue.some((entry) => {
-        !['count', 'counta', 'mode'].includes(entry)
-      })
+  let property: PropTypes = {}
 
-      typeof data[key] === 'string' && inclusion
-    }) ?? ''
+  for (const [key, value] of Object.entries(aggregate)) {
+    const mode = Object.values([value]).flat()
 
-  if (property.length) {
+    const inclusion = mode.find((entry) => !['count', 'counta', 'mode'].includes(entry))
+
+    if (typeof data[key] === 'string' && inclusion) {
+      property = { key, inclusion }
+    }
+  }
+
+  if (Object.keys(property).length) {
     throw new TypeError(
-      `The aggregate function "${property[1]}" cannot be used on the column "${property[0]}" because it's a string.`
+      `The aggregate function "${property?.inclusion}" cannot be used on the column "${property.key}" because it's a string.`
     )
   }
 }
 
 // Find wrong aggregate functions on aggregate obj values
 export const checkAggValues = (aggregate: AggFunc, aggValues: string[]) => {
-  const values = Object.values(aggValues)
+  const values = Object.values(aggregate).flat()
   const missing = values.find((val) => !aggValues.includes(val)) ?? ''
 
   if (missing) {
@@ -61,15 +76,6 @@ export const checkAggValues = (aggregate: AggFunc, aggValues: string[]) => {
         ', '
       )}.`
     )
-  }
-}
-
-// Find wrong columns on aggregate obj keys
-export const checkAggKeys = (aggregate: AggFunc, main: string[]) => {
-  const missing = Object.keys(aggregate).find((entry) => !main.includes(entry))
-
-  if (missing) {
-    throw new ReferenceError(`"${missing}" does not exists.`)
   }
 }
 
