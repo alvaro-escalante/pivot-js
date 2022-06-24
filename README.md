@@ -8,7 +8,7 @@
 
 # pivot-table-js
 
-A lightweight module that takes an array of objects and produces an array of objects back based on the aggregate functions. Emulating excel pivot tables.
+A lightweight module that takes an array of objects and produces an array of objects back based on one or more aggregate function per column. Emulating excel pivot tables.
 
 `pivot-table-js` can calculate different aggregate functions on sets of values. The results can be optionally renamed.
 
