@@ -36,23 +36,27 @@ import { Pivot } from 'pivot-table-js'
 const data = [
   {
     domain: 'duckduckgo.com',
-    traffic: 1000,
+    path: '/search',
+    traffic: 15000,
     trustFlow: 30
   },
   {
     domain: 'duckduckgo.com',
-    traffic: 2000,
-    trustFlow: 30
+    path: '/images',
+    traffic: 8000,
+    trustFlow: 20
   },
   {
     domain: 'google.com',
-    traffic: 100,
+    path: '/search',
+    traffic: 20000,
     trustFlow: 42
   },
   {
     domain: 'google.com',
-    traffic: 200,
-    trustFlow: 42
+    path: '/images',
+    traffic: 10000,
+    trustFlow: 38
   }
 ]
 
@@ -77,21 +81,24 @@ Will output:
 ```js
 [{
   Domain: 'duckduckgo.com',
-  'Frequency': 2,
-  'Traffic Sum': 3000,
-  'Average TF': 30
+  'Count of domain': 2,
+  'Sum of traffic': 23000,
+  'Mean of traffic': 11500,
+  'Mean of trustFlow': 25
 },
 {
   Domain: 'google.com',
-  'Frequency': 2,
-  'Traffic Sum': 300,
-  'Average TF': 42
+  'Count of domain': 2,
+  'Sum of traffic': 30000,
+  'Mean of traffic': 15000,
+  'Mean of trustFlow': 40
 },
 {
   Domain: 'Grand Total',
-  'Frequency': 4,
-  'Traffic Sum': 3300,
-  'Average TF': 36
+  'Count of domain': 4,
+  'Sum of traffic': 53000,
+  'Mean of traffic': 13250,
+  'Mean of trustFlow': 32.5
 }]
 ```
 
@@ -109,8 +116,8 @@ New feature allows for multiple funcions on the same column, just enclose the ty
 
 ```js
 const aggFunc =   {
-  domain: count', 
-  traffic: ['sum', 'min'], 
+  domain: 'count', 
+  traffic: ['sum', 'mean'], 
   trustFlow: 'mean' 
 }
 ```
