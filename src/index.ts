@@ -72,7 +72,7 @@ export const Pivot = (
               if (!(name in store)) store[name] = {}
               store[name][type] = []
             }
-            ;(store[name][type] as Array<string | number | null>).push(
+            ;(store[name][type] as (string | number | null)[] | null).push(
               row[name] as number
             )
             break
