@@ -152,3 +152,30 @@ export const dub = [
     url: 'example.com'
   }
 ]
+
+export const readme = [
+  {
+    domain: 'duckduckgo.com',
+    path: '/search',
+    traffic: 15000,
+    trustFlow: 30
+  },
+  {
+    domain: 'duckduckgo.com',
+    path: '/images',
+    traffic: 8000,
+    trustFlow: 20
+  },
+  {
+    domain: 'google.com',
+    path: '/search',
+    traffic: 20000,
+    trustFlow: 42
+  },
+  {
+    domain: 'google.com',
+    path: '/images',
+    traffic: 10000,
+    trustFlow: 38
+  }
+]

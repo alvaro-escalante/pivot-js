@@ -11,6 +11,7 @@ export const Pivot = (
   const store: Store = {}
   const totalHash: TotalHash = {}
   const aggValues = ['counta', 'count', 'sum', 'mean', 'median', 'mode', 'min', 'max']
+  let renameCounter: number = 0
 
   // Order array by column index passed
   const order: Entries[] = data.sort((a, b) =>
@@ -90,12 +91,15 @@ export const Pivot = (
     }
 
     const aggregateObj: Entries = {}
+
     // Compute collected pivots
-    for (const [i, [name, types]] of Object.entries(aggregate).entries()) {
-      const id = rename[i + 1] ?? false
+    for (const [name, types] of Object.entries(aggregate)) {
       let title = ''
 
       for (const type of Object.values([types]).flat()) {
+        renameCounter++
+        const id = rename[renameCounter] ?? false
+        console.log(id)
         switch (type) {
           case 'count':
             title = id ? id : `Count of ${name}`
@@ -109,6 +113,7 @@ export const Pivot = (
           case 'median':
           case 'mode':
             title = id ? id : `${calcs.caps(type)} of ${name}`
+
             const values = store[name][type] as number[]
             aggregateObj[title] = calcs[type](values)
             break
@@ -119,6 +124,7 @@ export const Pivot = (
             break
           default:
             title = id ? id : `Sum of ${name}`
+
             aggregateObj[title] =
               ((aggregateObj[title] as number) || 0) + (store[name][type] as number)
             break
@@ -127,6 +133,8 @@ export const Pivot = (
         totalHash[title] = { type, name }
       }
     }
+
+    renameCounter = 0
 
     // Add default name to first entry or use renames array
     const indexID = rename.length ? rename[0] : calcs.caps(index)

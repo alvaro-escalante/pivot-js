@@ -1,6 +1,42 @@
 import { Pivot } from '../src/index'
 import * as data from './data'
 
+describe('Readme test', () => {
+  test('Run main test with one value in an array and with renames', () => {
+    const options = {
+      domain: 'count',
+      traffic: ['sum', 'mean'],
+      trustFlow: 'mean'
+    }
+
+    const rename = ['Domain', 'Frequency', 'Traffic Sum', 'Traffic Average', 'TF Average']
+
+    expect(Pivot(data.readme, 'domain', options, rename)).toEqual([
+      {
+        Domain: 'duckduckgo.com',
+        Frequency: 2,
+        'Traffic Sum': 23000,
+        'Traffic Average': 11500,
+        'TF Average': 25
+      },
+      {
+        Domain: 'google.com',
+        Frequency: 2,
+        'Traffic Sum': 30000,
+        'Traffic Average': 15000,
+        'TF Average': 40
+      },
+      {
+        Domain: 'Grand Total',
+        Frequency: 4,
+        'Traffic Sum': 53000,
+        'Traffic Average': 13250,
+        'TF Average': 32.5
+      }
+    ])
+  })
+})
+
 describe('Run two different functions on the same column', () => {
   test('Count and mode on same column', () => {
     const options = { position: ['count', 'sum'] }

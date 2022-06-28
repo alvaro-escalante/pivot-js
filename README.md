@@ -65,11 +65,11 @@ const index = 'domain'
 
 const aggFunc =   {
   domain: 'count', 
-  traffic: 'sum', 
+  traffic: ['sum', 'mean'], 
   trustFlow: 'mean' 
 }
 
-const rename = ['Domain', 'Frequency', 'Traffic Sum', 'Average TF']
+const rename = ['Domain', 'Frequency', 'Traffic Sum', 'Traffic Average', 'TF Average']
 
 const pivotTable = Pivot(data, index, aggFunc, rename)
 
@@ -81,24 +81,24 @@ Will output:
 ```js
 [{
   Domain: 'duckduckgo.com',
-  'Count of domain': 2,
-  'Sum of traffic': 23000,
-  'Mean of traffic': 11500,
-  'Mean of trustFlow': 25
+  'Frequency': 2,
+  'Traffic Sum': 23000,
+  'Traffic Average': 11500,
+  'TF Average': 25
 },
 {
   Domain: 'google.com',
-  'Count of domain': 2,
-  'Sum of traffic': 30000,
-  'Mean of traffic': 15000,
-  'Mean of trustFlow': 40
+  'Frequency': 2,
+  'Traffic Sum': 30000,
+  'Traffic Average': 15000,
+  'TF Average': 40
 },
 {
   Domain: 'Grand Total',
-  'Count of domain': 4,
-  'Sum of traffic': 53000,
-  'Mean of traffic': 13250,
-  'Mean of trustFlow': 32.5
+  'Frequency': 4,
+  'Traffic Sum': 53000,
+  'Traffic Average': 13250,
+  'TF Average': 32.5
 }]
 ```
 

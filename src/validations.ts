@@ -82,7 +82,7 @@ export const checkAggValues = (aggregate: AggFunc, aggValues: string[]) => {
 // Check rename function has enough items
 export const checkRenames = (aggregate: AggFunc, rename: string[]) => {
   if (rename.length) {
-    const columnNumber = Object.keys(aggregate).length + 1
+    const columnNumber = Object.values(aggregate).flat().length + 1
     const missing = columnNumber !== rename.length
     if (missing) {
       throw new TypeError(
