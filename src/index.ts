@@ -99,7 +99,7 @@ export const Pivot = (
       for (const type of Object.values([types]).flat()) {
         renameCounter++
         const id = rename[renameCounter] ?? false
-        console.log(id)
+
         switch (type) {
           case 'count':
             title = id ? id : `Count of ${name}`
