@@ -28,3 +28,9 @@ export const mode = (arr: number[]) => {
 export const caps = (el: string) => {
   return el.charAt(0).toUpperCase() + el.slice(1)
 }
+
+export const coerceType = (entry: number | string) => {
+  if (typeof entry === 'number') return entry
+  const parsedEntry = parseFloat(entry)
+  return !isNaN(parsedEntry) ? parsedEntry : entry
+}

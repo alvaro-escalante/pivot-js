@@ -1,3 +1,5 @@
+import { coerceType } from './utils'
+
 export const checkData = (data: Entries[]) => {
   if (!data.length) {
     throw new Error(
@@ -53,7 +55,8 @@ export const checkAggType = (aggregate: AggFunc, data: Entries) => {
 
     const inclusion = mode.find((entry) => !['count', 'counta', 'mode'].includes(entry))
 
-    if (typeof data[key] === 'string' && inclusion) {
+    // Convert to string if possible if not then send error
+    if (typeof coerceType(data[key] as string | number) === 'string' && inclusion) {
       property = { key, inclusion }
     }
   }

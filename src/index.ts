@@ -1,5 +1,5 @@
 import * as validation from './validations'
-import * as calcs from './calcs'
+import * as util from './utils'
 // Pivot table function
 export const Pivot = (
   data: Entries[], // Data Array of Object
@@ -83,7 +83,9 @@ export const Pivot = (
               store[name][type] = 0
             }
 
-            store[name][type] = (store[name][type] as number) + (row[name] as number)
+            const num = util.coerceType(row[name] as number)
+
+            store[name][type] = (store[name][type] as number) + (num as number)
 
             break
         }
@@ -112,14 +114,14 @@ export const Pivot = (
           case 'mean':
           case 'median':
           case 'mode':
-            title = id ? id : `${calcs.caps(type)} of ${name}`
+            title = id ? id : `${util.caps(type)} of ${name}`
 
             const values = store[name][type] as number[]
-            aggregateObj[title] = calcs[type](values)
+            aggregateObj[title] = util[type](values)
             break
           case 'min':
           case 'max':
-            title = id ? id : `${calcs.caps(type)} of ${name}`
+            title = id ? id : `${util.caps(type)} of ${name}`
             aggregateObj[title] = Math[type](...(store[name][type] as number[]))
             break
           default:
@@ -137,9 +139,9 @@ export const Pivot = (
     renameCounter = 0
 
     // Add default name to first entry or use renames array
-    const indexID = rename.length ? rename[0] : calcs.caps(index)
+    const indexID = rename.length ? rename[0] : util.caps(index)
 
-    // Set table and spread aggregate calcs
+    // Set table and spread aggregate util
     acc.set(row[index], {
       [indexID]: row[index],
       ...aggregateObj
@@ -185,7 +187,7 @@ export const Pivot = (
 
     if (['median', 'mode'].includes(item.type)) {
       const numbers = data.map((obj) => obj[item.name])
-      totals[header] = calcs[item.type](numbers as number[])
+      totals[header] = util[item.type](numbers as number[])
       continue
     }
 

@@ -37,6 +37,27 @@ describe('Readme test', () => {
   })
 })
 
+describe('Convert string that can be converted to numbers', () => {
+  test('Sum number that comes as string', () => {
+    const options = { traffic: 'sum' }
+
+    expect(Pivot(data.stringNumbers, 'domain', options)).toEqual([
+      {
+        Domain: 'duckduckgo.com',
+        'Sum of traffic': 23000
+      },
+      {
+        Domain: 'google.com',
+        'Sum of traffic': 30000
+      },
+      {
+        Domain: 'Grand Total',
+        'Sum of traffic': 53000
+      }
+    ])
+  })
+})
+
 describe('Run two different functions on the same column', () => {
   test('Count and mode on same column', () => {
     const options = { position: ['count', 'sum'] }
