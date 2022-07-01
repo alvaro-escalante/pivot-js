@@ -74,7 +74,7 @@ export const Pivot = (
               store[name][type] = []
             }
             ;(store[name][type] as (string | number | null)[] | null).push(
-              row[name] as number
+              util.coerceType(row[name] as number)
             )
             break
           default:

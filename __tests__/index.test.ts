@@ -120,7 +120,7 @@ describe('Aggregates with auto rename', () => {
     expect(Pivot(data.auto, 'rank', options)).toEqual([
       { Rank: 1, 'Mean of rank': 1 },
       { Rank: 3, 'Mean of rank': 3 },
-      { Rank: 'Grand Total', 'Mean of rank': 1.67 }
+      { Rank: 'Grand Total', 'Mean of rank': 1.6666666666666667 }
     ])
   })
 
