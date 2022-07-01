@@ -170,7 +170,13 @@ export const Pivot = (
 
     // For mean take the whole data as a reference
     if (item.type === 'mean') {
-      const amount = data.reduce((acc, curr) => acc + (curr[value] as number), 0)
+      const amount = data.reduce((acc, curr) => {
+        let num = curr[value]
+
+        if (typeof num === 'string') num = util.coerceType(num)
+
+        return acc + (num as number)
+      }, 0)
       const decimals = (amount / data.length).toFixed(2)
       totals[header] = Number(decimals)
 
