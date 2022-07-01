@@ -1,5 +1,7 @@
 export const mean = (arr: number[]) => {
-  return arr.reduce((total, num) => total + num) / arr.length
+  const values = arr.reduce((total, num) => total + num)
+  const totals = (values / arr.length).toFixed(3)
+  return parseFloat(totals)
 }
 
 export const median = (arr: number[]) => {
