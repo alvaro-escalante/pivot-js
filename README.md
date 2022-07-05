@@ -103,11 +103,11 @@ Will output:
 ```
 
 
-| Domain         | Frequency | Traffic Sum | Average TF |
-| -------------- | ----------| ----------- | ---------- |
-| duckduckgo.com | 2         | 3000        | 30         |
-| google.com     | 2         | 300         | 42         |
-| Grand Total    | 4         | 3300        | 36         |
+| Domain         | Frequency | Traffic Sum | Traffic Average | Average TF |
+| -------------- | --------- | ----------- | --------------- | ---------- |
+| duckduckgo.com | 2         | 23000       | 11500           | 25         |
+| google.com     | 2         | 30000       | 15000           | 40         |
+| Grand Total    | 4         | 53000       | 13250           | 32.5       |
 
 
 ## Updates
@@ -126,16 +126,16 @@ const aggFunc =   {
 
 ## Available aggregate functions
 
-| Function  | Definition     |
-| :-------------- | :-------------------------------------- |
-| count  | Calculates the count of all values in a set |
-| counta | Calculates the count of all values in a set including empty strings |
-| sum    | Calculates the sum of values. |
-| mean   | Calculates the average in a set of values — not rounded |
-| median | Calculates the median in a set of values — not rounded |
-| mode   | Calculates the mode in a set of values |
-| min    | Minimum gets the minimum value in a set of values |
-| max    | Maximun gets the maximum value in a set of values |
+| Function | Definition                                                          |
+| :------- | :------------------------------------------------------------------ |
+| count    | Calculates the count of all values in a set                         |
+| counta   | Calculates the count of all values in a set including empty strings |
+| sum      | Calculates the sum of values.                                       |
+| mean     | Calculates the average in a set of values — not rounded             |
+| median   | Calculates the median in a set of values — not rounded              |
+| mode     | Calculates the mode in a set of values                              |
+| min      | Minimum gets the minimum value in a set of values                   |
+| max      | Maximun gets the maximum value in a set of values                   |
  
 ## Usage
 
