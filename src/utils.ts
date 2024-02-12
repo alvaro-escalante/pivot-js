@@ -1,7 +1,17 @@
-export const mean = (arr: number[]) => {
-  const values = arr.reduce((total, num) => total + num)
-  const totals = (values / arr.length).toFixed(3)
-  return parseFloat(totals)
+export const mean = (arr: (number | string | null)[]): number => {
+  // Filter out nulls and non-numeric values, then only keep numbers
+  const cleanArray = arr.filter(
+    (val): val is number => typeof val === 'number' && !isNaN(val)
+  )
+
+  // Calculate the sum of the numeric values if any
+  const sum = cleanArray.reduce((total, num) => total + num, 0)
+
+  // Calculate the mean, divide by length only if cleanArray is not empty
+  const average =
+    cleanArray.length > 0 ? parseFloat((sum / cleanArray.length).toFixed(3)) : 0
+
+  return average
 }
 
 export const median = (arr: number[]) => {

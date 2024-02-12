@@ -170,14 +170,23 @@ export const Pivot = (
 
     // For mean take the whole data as a reference
     if (item.type === 'mean') {
-      const amount = data.reduce((acc, curr) => {
+      const cleanData = data.filter((entry) =>
+        Object.keys(aggregate).every((key) => {
+          if (aggregate[key] === 'mean') {
+            return typeof entry[key] === 'number'
+          }
+          return true
+        })
+      )
+
+      const amount = cleanData.reduce((acc, curr) => {
         let num = curr[value]
 
         if (typeof num === 'string') num = util.coerceType(num)
 
         return acc + (num as number)
       }, 0)
-      const decimals = (amount / data.length).toFixed(2)
+      const decimals = (amount / cleanData.length).toFixed(2)
       totals[header] = Number(decimals)
 
       continue
@@ -186,8 +195,16 @@ export const Pivot = (
     // For min/max use pivoted results
     if (['min', 'max'].includes(item.type)) {
       totals[header] = data.reduce((acc, curr) => {
-        const evaluation = item.type === 'min' ? acc < curr[value] : acc > curr[value]
-        return acc !== 0 && evaluation ? acc : curr[value]
+        // Ensure curr[value] is a number before comparing. If not, return acc to skip this iteration.
+        if (typeof curr[value] !== 'number') return acc
+        // Convert acc to number in case it's the initial value (0) or another type. Use +acc for shorthand conversion.
+        const accNumber = +acc
+        const currNumber = curr[value] as number // We've already checked it's a number, so this type assertion is safe.
+
+        // Perform the comparison using the numeric values.
+        const evaluation =
+          item.type === 'min' ? accNumber < currNumber : accNumber > currNumber
+        return accNumber !== 0 && evaluation ? accNumber : currNumber
       }, 0)
 
       continue

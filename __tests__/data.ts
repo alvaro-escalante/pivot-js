@@ -90,6 +90,17 @@ export const empty = [
   }
 ]
 
+export const mean = [
+  {
+    keyword: 'N/A',
+    meanValue: 19
+  },
+  {
+    keyword: 'N/A',
+    meanValue: 'nodata'
+  }
+]
+
 export const median = [
   {
     page: 1,

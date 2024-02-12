@@ -1,5 +1,5 @@
 type Entries = {
-  [key: string]: string | number | Array<number | string | undefined>
+  [key: string]: string | number | null | Array<number | string | null | undefined>
 }
 
 type Store = {

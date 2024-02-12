@@ -1,5 +1,5 @@
 {
-  "ts-node": {  "files": true },
+  "ts-node": { "files": true },
   "compilerOptions": {
     "outDir": "./lib",
     "module": "commonjs",
@@ -14,8 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "rootDir": "./src",
-    "typeRoots": ["./node_modules/@types", ".src/@types"],
-    "importsNotUsedAsValues": "preserve"
+    "typeRoots": ["./node_modules/@types", ".src/@types"]
   },
   "include": ["src", "__tests__/data.ts"],
   "exclude": ["node_modules", "**/__tests__/*"]

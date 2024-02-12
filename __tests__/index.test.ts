@@ -417,4 +417,13 @@ describe('Edge cases', () => {
       { Rank: 'Grand Total', Trustflow: 270, Counter: 4 }
     ])
   })
+
+  test('Null as mean values', () => {
+    const options = { keyword: 'count', meanValue: 'mean' }
+    const rename = ['Keyword', 'Count', 'Mean']
+    expect(Pivot(data.mean, 'keyword', options, rename)).toEqual([
+      { Keyword: 'N/A', Count: 2, Mean: 19 },
+      { Keyword: 'Grand Total', Count: 2, Mean: 19 }
+    ])
+  })
 })
