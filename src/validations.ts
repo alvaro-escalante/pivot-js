@@ -53,7 +53,9 @@ export const checkAggType = (aggregate: AggFunc, data: Entries) => {
   for (const [key, value] of Object.entries(aggregate)) {
     const mode = Object.values([value]).flat()
 
-    const inclusion = mode.find((entry) => !['count', 'counta', 'mode'].includes(entry))
+    const inclusion = mode.find(
+      (entry) => !['count', 'counta', 'mode', 'mean'].includes(entry)
+    )
 
     // Convert to string if possible if not then send error
     if (typeof coerceType(data[key] as string | number) === 'string' && inclusion) {
