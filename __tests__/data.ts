@@ -217,3 +217,31 @@ export const stringNumbers = [
     trustFlow: 38
   }
 ]
+
+export const unique = [
+  {
+    type: 'Art',
+    position: 1,
+    url: 'google.com'
+  },
+  {
+    type: 'Art',
+    position: 2,
+    url: 'google.co.uk'
+  },
+  {
+    type: 'Art',
+    position: 3,
+    url: 'google.es'
+  },
+  {
+    type: 'Unique',
+    position: 5,
+    url: 'example.com'
+  },
+  {
+    type: 'Unique',
+    position: 6,
+    url: 'example.com'
+  }
+]

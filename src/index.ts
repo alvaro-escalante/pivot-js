@@ -180,6 +180,8 @@ export const Pivot = (
     return acc
   }, new Map())
 
+  console.log(pivots)
+
   const pivotTable = [...pivots.values()]
 
   // Calculate totals

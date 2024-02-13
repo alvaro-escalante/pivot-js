@@ -431,12 +431,12 @@ describe('Edge cases', () => {
 describe('Unique count', () => {
   test('Count unique values only', () => {
     const options = { url: 'count-unique', position: 'mean' }
-    const rename = ['URL', 'Count', 'Avg Position']
+    const rename = ['Type', 'Count', 'Avg Position']
 
-    expect(Pivot(data.mode, 'url', options, rename)).toEqual([
-      { URL: 'example.com', Count: 1, 'Avg Position': 1 },
-      { URL: 'google.com', Count: 1, 'Avg Position': 1.5 },
-      { URL: 'Grand Total', Count: 2, 'Avg Position': 1.33 }
+    expect(Pivot(data.unique, 'type', options, rename)).toEqual([
+      { Type: 'Art', Count: 3, 'Avg Position': 2 },
+      { Type: 'Unique', Count: 1, 'Avg Position': 5.5 },
+      { Type: 'Grand Total', Count: 4, 'Avg Position': 3.4 }
     ])
   })
 })
