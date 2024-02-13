@@ -126,16 +126,17 @@ const aggFunc =   {
 
 ## Available aggregate functions
 
-| Function | Definition                                                          |
-| :------- | :------------------------------------------------------------------ |
-| count    | Calculates the count of all values in a set                         |
-| counta   | Calculates the count of all values in a set including empty strings |
-| sum      | Calculates the sum of values.                                       |
-| mean     | Calculates the average in a set of values — not rounded             |
-| median   | Calculates the median in a set of values — not rounded              |
-| mode     | Calculates the mode in a set of values                              |
-| min      | Minimum gets the minimum value in a set of values                   |
-| max      | Maximun gets the maximum value in a set of values                   |
+| Function     | Definition                                                          |
+| :----------- | :------------------------------------------------------------------ |
+| count        | Calculates the count of all values in a set                         |
+| counta       | Calculates the count of all values in a set including empty strings |
+| count-unique | Calculates the count of all unique values in a set                  |
+| sum          | Calculates the sum of values.                                       |
+| mean         | Calculates the average in a set of values — not rounded             |
+| median       | Calculates the median in a set of values — not rounded              |
+| mode         | Calculates the mode in a set of values                              |
+| min          | Minimum gets the minimum value in a set of values                   |
+| max          | Maximun gets the maximum value in a set of values                   |
  
 ## Usage
 

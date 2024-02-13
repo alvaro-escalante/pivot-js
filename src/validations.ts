@@ -54,7 +54,7 @@ export const checkAggType = (aggregate: AggFunc, data: Entries) => {
     const mode = Object.values([value]).flat()
 
     const inclusion = mode.find(
-      (entry) => !['count', 'counta', 'mode', 'mean'].includes(entry)
+      (entry) => !['count', 'counta', 'count-unique', 'mode', 'mean'].includes(entry)
     )
 
     // Convert to string if possible if not then send error

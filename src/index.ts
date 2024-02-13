@@ -10,7 +10,17 @@ export const Pivot = (
   // Initialise variables
   const store: Store = {}
   const totalHash: TotalHash = {}
-  const aggValues = ['counta', 'count', 'sum', 'mean', 'median', 'mode', 'min', 'max']
+  const aggValues = [
+    'counta',
+    'count',
+    'count-unique',
+    'sum',
+    'mean',
+    'median',
+    'mode',
+    'min',
+    'max'
+  ]
   let renameCounter: number = 0
 
   // Order array by column index passed
@@ -19,6 +29,9 @@ export const Pivot = (
       ? (a[index] as number) - (b[index] as number)
       : `${a[index]}`.localeCompare(`${b[index]}`)
   )
+
+  // Unique set for count-unique only
+  const uniqueCount = new Set()
 
   // Make sure the data array is not empty
   validation.checkData(data)
@@ -47,6 +60,19 @@ export const Pivot = (
     for (const [name, types] of Object.entries(aggregate)) {
       for (const type of Object.values([types]).flat()) {
         switch (type) {
+          case 'count-unique':
+            if (!acc.has(row[index])) {
+              if (!(name in store)) store[name] = {}
+              store[name][type] = 0
+            }
+
+            if (!uniqueCount.has(row[name])) {
+              uniqueCount.add(row[name])
+              store[name][type] = (store[name][type] as number) + 1
+            }
+
+            break
+
           case 'count':
             if (!acc.has(row[index])) {
               if (!(name in store)) store[name] = {}
@@ -103,6 +129,10 @@ export const Pivot = (
         const id = rename[renameCounter] ?? false
 
         switch (type) {
+          case 'count-unique':
+            title = id ? id : `Unique count of ${name}`
+            aggregateObj[title] = store[name][type]
+            break
           case 'count':
             title = id ? id : `Count of ${name}`
             aggregateObj[title] = store[name][type]

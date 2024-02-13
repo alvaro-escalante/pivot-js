@@ -339,7 +339,7 @@ describe('Errors', () => {
     const options = { page: 'suma' }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "suma". Allowed functions are counta, count, sum, mean, median, mode, min, max.`
+      `Incorrect aggregate function "suma". Allowed functions are counta, count, count-unique, sum, mean, median, mode, min, max.`
     )
   })
 
@@ -347,7 +347,7 @@ describe('Errors', () => {
     const options = { page: ['counto', 'sumo'] }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "counto". Allowed functions are counta, count, sum, mean, median, mode, min, max.`
+      `Incorrect aggregate function "counto". Allowed functions are counta, count, count-unique, sum, mean, median, mode, min, max.`
     )
   })
 
@@ -355,7 +355,7 @@ describe('Errors', () => {
     const options = { page: ['count', 'sumo'] }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "sumo". Allowed functions are counta, count, sum, mean, median, mode, min, max.`
+      `Incorrect aggregate function "sumo". Allowed functions are counta, count, count-unique, sum, mean, median, mode, min, max.`
     )
   })
 
@@ -363,7 +363,7 @@ describe('Errors', () => {
     const options = { page: ['counto'] }
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(ReferenceError)
     expect(() => Pivot(data.auto, 'keyword', options)).toThrow(
-      `Incorrect aggregate function "counto". Allowed functions are counta, count, sum, mean, median, mode, min, max.`
+      `Incorrect aggregate function "counto". Allowed functions are counta, count, count-unique, sum, mean, median, mode, min, max.`
     )
   })
 
@@ -424,6 +424,19 @@ describe('Edge cases', () => {
     expect(Pivot(data.mean, 'keyword', options, rename)).toEqual([
       { Keyword: 'N/A', Count: 2, Mean: 19 },
       { Keyword: 'Grand Total', Count: 2, Mean: 19 }
+    ])
+  })
+})
+
+describe('Unique count', () => {
+  test('Count unique values only', () => {
+    const options = { url: 'count-unique', position: 'mean' }
+    const rename = ['URL', 'Count', 'Avg Position']
+
+    expect(Pivot(data.mode, 'url', options, rename)).toEqual([
+      { URL: 'example.com', Count: 1, 'Avg Position': 1 },
+      { URL: 'google.com', Count: 1, 'Avg Position': 1.5 },
+      { URL: 'Grand Total', Count: 2, 'Avg Position': 1.33 }
     ])
   })
 })
