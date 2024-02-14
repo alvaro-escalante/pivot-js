@@ -180,8 +180,6 @@ export const Pivot = (
     return acc
   }, new Map())
 
-  console.log(pivots)
-
   const pivotTable = [...pivots.values()]
 
   // Calculate totals
@@ -202,25 +200,8 @@ export const Pivot = (
 
     // For mean take the whole data as a reference
     if (item.type === 'mean') {
-      const cleanData = data.filter((entry) =>
-        Object.keys(aggregate).every((key) => {
-          if (aggregate[key] === 'mean') {
-            return typeof entry[key] === 'number'
-          }
-          return true
-        })
-      )
-
-      const amount = cleanData.reduce((acc, curr) => {
-        let num = curr[value]
-
-        if (typeof num === 'string') num = util.coerceType(num)
-
-        return acc + (num as number)
-      }, 0)
-      const decimals = (amount / cleanData.length).toFixed(2)
-      totals[header] = Number(decimals)
-
+      const valuesArray = data.map((obj) => obj[value])
+      totals[header] = util.mean(valuesArray as (string | number)[])
       continue
     }
 

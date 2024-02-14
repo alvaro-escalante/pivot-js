@@ -120,7 +120,7 @@ describe('Aggregates with auto rename', () => {
     expect(Pivot(data.auto, 'rank', options)).toEqual([
       { Rank: 1, 'Mean of rank': 1 },
       { Rank: 3, 'Mean of rank': 3 },
-      { Rank: 'Grand Total', 'Mean of rank': 1.67 }
+      { Rank: 'Grand Total', 'Mean of rank': 1.667 }
     ])
   })
 
@@ -438,5 +438,24 @@ describe('Unique count', () => {
       { Type: 'Unique', Count: 1, 'Avg Position': 5.5 },
       { Type: 'Grand Total', Count: 4, 'Avg Position': 3.4 }
     ])
+  })
+})
+
+describe('Check Totals', () => {
+  test('Grant total output', () => {
+    const pivoted = Pivot(
+      data.totals,
+      'Page Type',
+      {
+        'Requested URL': 'count-unique',
+        LCP: 'mean',
+        CLS: 'mean',
+        INP: 'mean',
+        FID: 'mean'
+      },
+      ['Page Type', 'Number of Pages', 'Avg. LCP', 'Avg. CLS', 'Avg. INP', 'Avg. FID']
+    )
+
+    console.log(pivoted)
   })
 })
